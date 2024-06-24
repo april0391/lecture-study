@@ -29,14 +29,6 @@ public class FrontControllerServletV2 extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("URI: " + request.getRequestURI());
-        System.out.println("URL: " + request.getRequestURL());
-        String command = request.getRequestURI().substring(request.getContextPath().length() + 1);
-        String cPath = request.getContextPath();
-        int cPathLength = request.getContextPath().length();
-        System.out.println("cPath = " + cPath);
-        System.out.println("cPathLength = " + cPathLength);
-        System.out.println("command = " + command);
 
         String requestURI = request.getRequestURI();
 
