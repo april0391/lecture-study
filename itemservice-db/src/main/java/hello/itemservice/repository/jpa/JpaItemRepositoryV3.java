@@ -51,6 +51,7 @@ public class JpaItemRepositoryV3 implements ItemRepository {
         return Optional.ofNullable(item);
     }
 
+//    @Override
     public List<Item> findAllold(ItemSearchCond cond) {
         String itemName = cond.getItemName();
         Integer maxPrice = cond.getMaxPrice();
@@ -75,12 +76,13 @@ public class JpaItemRepositoryV3 implements ItemRepository {
         String itemName = cond.getItemName();
         Integer maxPrice = cond.getMaxPrice();
 
-        QItem item = new QItem("i");
-
         return query
                 .select(item)
                 .from(item)
-                .where(likeItemName(itemName), maxPrice(maxPrice))
+                .where(
+                        likeItemName(itemName),
+                        maxPrice(maxPrice)
+                )
                 .fetch();
     }
 
