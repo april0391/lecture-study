@@ -10,7 +10,7 @@ class HelloTraceV1Test {
     @Test
     void begin_end() {
         HelloTraceV1 trace = new HelloTraceV1();
-        TraceStatus status = trace.begin("hello");
+        TraceStatus status = trace.begin("hello1");
         trace.end(status);
     }
 
