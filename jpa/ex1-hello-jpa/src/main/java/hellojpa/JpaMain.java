@@ -42,14 +42,14 @@ public class JpaMain {
 
         try {
             // 영속
-            Member member1 = new Member(151L, "A");
-            Member member2 = new Member(161L, "B");
-
-            em.persist(member1);
-            em.persist(member2);
-
-            System.out.println("===============");
-            tx.commit();
+//            Member member1 = new Member(151L, "A");
+//            Member member2 = new Member(161L, "B");
+//
+//            em.persist(member1);
+//            em.persist(member2);
+//
+//            System.out.println("===============");
+//            tx.commit();
         } catch (Exception e) {
             tx.rollback();
         } finally {
