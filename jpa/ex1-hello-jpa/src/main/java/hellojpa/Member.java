@@ -1,35 +1,33 @@
 package hellojpa;
 
-import jakarta.persistence.*;
-
-import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
-//@Table(name = "mbr")
 public class Member {
 
     @Id
     private Long id;
+    private String name;
 
-//    @Column(unique = true, length = 10) // DDL 생성 기능에만 영향
-    @Column(name = "name")
-    private String username;
+    public Member(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-    private Integer age;
+    public Long getId() {
+        return id;
+    }
 
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    public String getName() {
+        return name;
+    }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
-
-    @Lob
-    private String description;
-
-    @Transient
-    private int temp;
-
+    public void setName(String name) {
+        this.name = name;
+    }
 }
