@@ -69,12 +69,12 @@ public class JpaMain {
 //            em.detach(findMember);
 
             Member member = new Member();
-            member.setUsername("name");
+//            member.setUsername("name");
 
             System.out.println("===============");
             em.persist(member);
-            Long id = member.getId();
-            System.out.println("id = " + id);
+//            Long id = member.getId();
+//            System.out.println("id = " + id);
             System.out.println("===============");
 
             tx.commit();
@@ -84,4 +84,35 @@ public class JpaMain {
             em.close();
         }
     }
+
+    private static void relationship(EntityManagerFactory emf) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        try {
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
+            Member member = new Member();
+            member.setUsername("member1");
+            member.changeTeam(team);
+            em.persist(member);
+
+            team.addMember(member);
+
+            em.flush();
+            em.clear();
+
+            Team findTeam = em.find(Team.class, team.getId());
+            List<Member> members = findTeam.getMembers();
+
+        } catch (Exception e) {
+            tx.rollback();
+        } finally {
+            em.close();
+        }
+    }
+
 }
