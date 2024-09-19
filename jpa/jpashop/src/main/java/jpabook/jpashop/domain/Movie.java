@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain.inheritance;
+package jpabook.jpashop.domain;
 
 import jakarta.persistence.Entity;
 

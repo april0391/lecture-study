@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
-@Entity
+//@Entity
 @Table(name = "member_sequence")
 @SequenceGenerator(
         name = "MEMBER_SEQ_GENERATOR",

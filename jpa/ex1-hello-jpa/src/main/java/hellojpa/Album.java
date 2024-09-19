@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain.inheritance;
+package hellojpa;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -8,4 +8,6 @@ import jakarta.persistence.Entity;
 public class Album extends Item {
 
     private String artist;
+    private String etc;
+
 }

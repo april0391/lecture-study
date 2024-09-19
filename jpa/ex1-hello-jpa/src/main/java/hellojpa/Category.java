@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain;
+package hellojpa;
 
 import jakarta.persistence.*;
 
@@ -13,7 +13,7 @@ public class Category {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "PARENT_ID")
     private Category parent;
 
@@ -25,6 +25,6 @@ public class Category {
             joinColumns = @JoinColumn(name = "CATEGORY_ID"),
             inverseJoinColumns = @JoinColumn(name = "ITEM_ID")
     )
-    private List<Item_> items = new ArrayList<>();
+    private List<Item> items = new ArrayList<>();
 
 }
