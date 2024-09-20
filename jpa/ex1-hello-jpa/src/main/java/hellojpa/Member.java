@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Entity
 @Getter @Setter
+@Entity
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,26 +20,27 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-//    @Column(name = "TEAM_ID")
-//    private Long teamId;
+    @Embedded
+    private Period period;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-//    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "TEAM_ID")
-//    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
-    private Team team;
+    @Embedded
+    private Address homeAddress;
 
-    @OneToOne
-    @JoinColumn(name = "LOCKER_ID")
-    private Locker locker;
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "MEMBER_PRODUCT")
-    private List<Product> products = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    private List<Address> addressHistory = new ArrayList<>();
 
-    public void changeTeam(Team team) {
-        this.team = team;
-        team.getMembers().add(this);
-    }
+    /*@Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city", column=@Column(name = "WORK_CITY")),
+            @AttributeOverride(name="street", column=@Column(name = "WORK_STREET")),
+            @AttributeOverride(name="zipcode", column=@Column(name = "WORK_ZIPCODE"))
+    })
+    private Address workAddress;*/
 
 }

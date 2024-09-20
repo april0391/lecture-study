@@ -1,7 +1,9 @@
 package hellojpa;
 
 import jakarta.persistence.*;
-import org.hibernate.jpa.internal.PersistenceUnitUtilImpl;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 
@@ -15,20 +17,9 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Child child1 = new Child();
-            Child child2 = new Child();
+            /*List<Member> members = em.createQuery("select m from Member m where m.username like '%kim%'", Member.class)
+                    .getResultList();*/
 
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
-
-            em.persist(parent);
-
-            em.flush();
-            em.clear();
-
-            Parent findParent = em.find(Parent.class, parent.getId());
-            findParent.getChildList().remove(0);
 
             tx.commit();
         } catch (Exception e) {
@@ -39,14 +30,70 @@ public class JpaMain {
         emf.close();
     }
 
+    private static void criteria(EntityManager em) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Member> query = cb.createQuery(Member.class);
+        Root<Member> m = query.from(Member.class);
+        CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
+        List<Member> members = em.createQuery(cq).getResultList();
+    }
+
+    private static void extracted3(EntityManager em) {
+        Member member = new Member();
+        member.setUsername("member1");
+        member.setHomeAddress(new Address("homeCity", "street", "10000"));
+
+        member.getFavoriteFoods().add("치킨");
+        member.getFavoriteFoods().add("족발");
+        member.getFavoriteFoods().add("피자");
+
+        member.getAddressHistory().add(new Address("old1", "street", "10000"));
+        member.getAddressHistory().add(new Address("old2", "street", "10000"));
+
+        em.persist(member);
+    }
+
+    private static void extracted2(EntityManager em) {
+        Address address = new Address("city", "street", "123");
+
+        Member member = new Member();
+        member.setUsername("member1");
+        member.setHomeAddress(address);
+        em.persist(member);
+
+        Member member2 = new Member();
+        member2.setUsername("member2");
+        member2.setHomeAddress(address);
+        em.persist(member2);
+
+//            member.getHomeAddress().setCity("newCity");
+    }
+
+    private static void extracted1(EntityManager em) {
+        Child child1 = new Child();
+        Child child2 = new Child();
+
+        Parent parent = new Parent();
+        parent.addChild(child1);
+        parent.addChild(child2);
+
+        em.persist(parent);
+
+        em.flush();
+        em.clear();
+
+        Parent findParent = em.find(Parent.class, parent.getId());
+        findParent.getChildList().remove(0);
+    }
+
     private static void extracted(EntityManager em) {
         Team team = new Team();
-        team.setName("teamA");
+//        team.setName("teamA");
         em.persist(team);
 
         Member member = new Member();
         member.setUsername("member1");
-        member.setTeam(team);
+//        member.setTeam(team);
         em.persist(member);
 
         em.flush();
@@ -127,36 +174,6 @@ public class JpaMain {
             System.out.println("findMember.username = " + findMember.getUsername());
 
             tx.commit();
-
-        } catch (Exception e) {
-            tx.rollback();
-        } finally {
-            em.close();
-        }
-    }
-
-    private static void relationship(EntityManagerFactory emf) {
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-
-        try {
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
-
-            Member member = new Member();
-            member.setUsername("member1");
-            member.changeTeam(team);
-            em.persist(member);
-
-            team.addMember(member);
-
-            em.flush();
-            em.clear();
-
-            Team findTeam = em.find(Team.class, team.getId());
-            List<Member> members = findTeam.getMembers();
 
         } catch (Exception e) {
             tx.rollback();

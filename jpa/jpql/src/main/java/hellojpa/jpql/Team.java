@@ -1,22 +1,24 @@
-package hellojpa;
+package hellojpa.jpql;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Product {
+@Getter @Setter
+public class Team {
 
     @Id @GeneratedValue
     private Long id;
 
     private String name;
 
-//    @ManyToMany(mappedBy = "products")
-//    private List<Member> members= new ArrayList<>();
-
+    @OneToMany(mappedBy = "team")
+    private List<Member> members = new ArrayList<>();
 }

@@ -1,12 +1,8 @@
-package hellojpa;
+package hellojpa.jpql;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Product {
@@ -16,7 +12,8 @@ public class Product {
 
     private String name;
 
-//    @ManyToMany(mappedBy = "products")
-//    private List<Member> members= new ArrayList<>();
+    private int price;
+
+    private int stockAmount;
 
 }
