@@ -1,18 +1,15 @@
 package hello.hello_spring.controller;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HelloController {
 	
-	@RequestMapping(method = RequestMethod.GET, value = "hello")
+	@RequestMapping(value = "hello", method = RequestMethod.GET)
 	public String hello(Model model) {
 		model.addAttribute("data", "spring!!");
 		return "hello";
@@ -20,6 +17,7 @@ public class HelloController {
 	
 	@GetMapping("hello-mvc")
 	public String helloMvc(@RequestParam(required = false, value = "name") String name, Model model) {
+		System.out.println("name = " + name);
 		model.addAttribute("name", name);
 		return "hello-template";
 	}
@@ -37,18 +35,9 @@ public class HelloController {
 		hello.setName(name);
 		return hello;
 	}
-	
-	
-	static class Hello {
+
+	@Getter @Setter
+	public static class Hello {
 		private String name;
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-		
 	}
 }

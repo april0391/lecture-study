@@ -31,15 +31,16 @@ public class MemberController {
 		Member member = new Member();
 		member.setName(form.getName());
 		memberService.join(member);
+
 		System.out.println(member.getId());
 		System.out.println(member.getName());
+
 		return "redirect:/";
 	}
 	
 	@GetMapping("/members")
 	public String list(Model model) {
-		List<Member> members = memberService.findMembers();
-		model.addAttribute("members", members);
+        model.addAttribute("members", memberService.findMembers());
 		return "members/memberList";
 	}
 	
