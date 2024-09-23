@@ -1,27 +1,19 @@
 package hello.hello_spring.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import hello.hello_spring.domain.Member;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+
+import javax.sql.DataSource;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.sql.DataSource;
-
-import org.springframework.jdbc.datasource.DataSourceUtils;
-
-import hello.hello_spring.domain.Member;
-
+@RequiredArgsConstructor
 public class JdbcMemberRepository implements MemberRepository {
 
 	private final DataSource dataSource;
-
-	public JdbcMemberRepository(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
 
 	@Override
 	public Member save(Member member) {
@@ -32,10 +24,10 @@ public class JdbcMemberRepository implements MemberRepository {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
 			pstmt.setString(1, member.getName());
+
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
 
@@ -44,19 +36,19 @@ public class JdbcMemberRepository implements MemberRepository {
 			} else {
 				throw new SQLException("id 조회 실패");
 			}
-			return member;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 
-		} catch (Exception e) {
-			throw new IllegalStateException();
 		} finally {
 			close(conn, pstmt, rs);
 		}
+
+		return null;
 	}
 
 	@Override
 	public Optional<Member> findById(Long id) {
-		String sql = "select * from member where id = ?";
-
+		String sql = "SELECT * FROM member WHERE id = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -68,15 +60,13 @@ public class JdbcMemberRepository implements MemberRepository {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				Member member = new Member();
-				member.setId(rs.getLong("id"));
-				member.setName(rs.getString("name"));
+				Member member = new Member(id, rs.getString("name"));
 				return Optional.of(member);
 			} else {
 				return Optional.empty();
 			}
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		} finally {
 			close(conn, pstmt, rs);
 		}
@@ -84,7 +74,7 @@ public class JdbcMemberRepository implements MemberRepository {
 
 	@Override
 	public Optional<Member> findByName(String name) {
-		String sql = "select * from member where name = ?";
+		String sql = "SELECT * FROM member WHERE name = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -94,15 +84,15 @@ public class JdbcMemberRepository implements MemberRepository {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
+
 			if (rs.next()) {
-				Member member = new Member();
-				member.setId(rs.getLong("id"));
-				member.setName(rs.getString("name"));
+				Member member = new Member(rs.getLong("id"), name);
 				return Optional.of(member);
+			} else {
+				return Optional.empty();
 			}
-			return Optional.empty();
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		} finally {
 			close(conn, pstmt, rs);
 		}
@@ -110,25 +100,24 @@ public class JdbcMemberRepository implements MemberRepository {
 
 	@Override
 	public List<Member> findAll() {
-		String sql = "select * from member";
+		String sql = "SELECT * FROM member";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
+
 			List<Member> members = new ArrayList<>();
 			while (rs.next()) {
-				Member member = new Member();
-				member.setId(rs.getLong("id"));
-				member.setName(rs.getString("name"));
+				Member member = new Member(rs.getLong("id"), rs.getString("name"));
 				members.add(member);
 			}
 			return members;
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		} finally {
 			close(conn, pstmt, rs);
 		}
