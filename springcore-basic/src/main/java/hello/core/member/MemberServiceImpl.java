@@ -6,12 +6,7 @@ import org.springframework.stereotype.Component;
 @Component("memberService")
 public class MemberServiceImpl implements MemberService {
 
-    private final MemberRepository memberRepository;
-
-    @Autowired //ac.getBean(MemberRepository.class)
-    public MemberServiceImpl(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+    private final MemberRepository memberRepository = new MemoryMemberRepository();
 
     @Override
     public void join(Member member) {
