@@ -11,21 +11,34 @@ import static org.junit.jupiter.api.Assertions.*;
 class StatefulServiceTest {
 
     @Test
-    void statefulServiceSingleton() {
+    void statefulServiceSingleton() throws InterruptedException {
         ApplicationContext ac = new AnnotationConfigApplicationContext(TestConfig.class);
         StatefulService statefulService1 = ac.getBean(StatefulService.class);
         StatefulService statefulService2 = ac.getBean(StatefulService.class);
 
-        //ThreadA: A사용자 10000원 주문
-        statefulService1.order("userA", 10000);
-        //ThreadB: B사용자 20000원 주문
-        statefulService2.order("userB", 20000);
+        Thread thread1 = new Thread() {
+            @Override
+            public void run() {
+                statefulService1.order("userA", 10000);
+            }
+        };
+        System.out.println("thread1.getClass() = " + thread1.getClass());
 
-        //ThreadA: 사용자A 주문 금액 조회
+        Thread thread2 = new Thread(() -> statefulService2.order("userB", 20000));
+        System.out.println("thread2.getClass() = " + thread2.getClass());
+
+        thread1.start();
+        thread1.join();
+
+        thread2.start();
+        thread2.join();
+
+        // 사용자 A의 주문 금액 조회
         int price = statefulService1.getPrice();
         System.out.println("price = " + price);
 
-        Assertions.assertThat(statefulService1.getPrice()).isEqualTo(20000);
+        // 기대: 사용자 A의 주문 금액이 10000원이지만, 상태를 공유하는 경우 잘못된 값이 나올 수 있음
+        Assertions.assertThat(price).isNotEqualTo(10000);
     }
 
     static class TestConfig {

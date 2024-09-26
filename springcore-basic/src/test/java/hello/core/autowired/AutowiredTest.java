@@ -14,6 +14,8 @@ public class AutowiredTest {
     @Test
     void autowiredOption() {
         ApplicationContext ac = new AnnotationConfigApplicationContext(TestBean.class);
+        TestBean bean = ac.getBean(TestBean.class);
+        System.out.println("bean = " + bean);
     }
 
     static class TestBean {
