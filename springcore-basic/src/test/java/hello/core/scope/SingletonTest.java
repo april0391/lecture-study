@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -13,7 +14,6 @@ public class SingletonTest {
 
     @Test
     void singletonBeanFind() {
-
         AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(SingletonBean.class);
 
         SingletonBean singletonBean1 = ac.getBean(SingletonBean.class);
@@ -21,6 +21,10 @@ public class SingletonTest {
         System.out.println("singletonBean1 = " + singletonBean1);
         System.out.println("singletonBean2 = " + singletonBean2);
         assertThat(singletonBean1).isSameAs(singletonBean2);
+
+        singletonBean1.destroy();
+        SingletonBean bean = ac.getBean(SingletonBean.class);
+        System.out.println("bean = " + bean);
 
         ac.close();
     }
@@ -38,4 +42,5 @@ public class SingletonTest {
             System.out.println("SingletonBean.destroy");
         }
     }
+
 }

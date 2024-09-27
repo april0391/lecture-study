@@ -12,14 +12,7 @@ import java.util.Map;
 public class CoreApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext ac = SpringApplication.run(CoreApplication.class, args);
-		OrderServiceImpl2 bean = ac.getBean(OrderServiceImpl2.class);
-		Map<String, DiscountPolicy> discountPolicyMap = bean.getDiscountPolicyMap();
-		for (String key : discountPolicyMap.keySet()) {
-			System.out.print("key = " + key + ", value = ");
-			DiscountPolicy discountPolicy = discountPolicyMap.get(key);
-			System.out.println(discountPolicy.getClass());
-		}
+		SpringApplication.run(CoreApplication.class, args);
 	}
 
 }
