@@ -8,12 +8,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class MemberFormControllerV1 implements ControllerV1 {
+public class MemberFormController implements ControllerV1 {
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String viewPath = "/WEB-INF/views/new-form.jsp";
-        RequestDispatcher rd = request.getRequestDispatcher(viewPath);
-        rd.forward(request, response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+        dispatcher.forward(request, response);
     }
 }

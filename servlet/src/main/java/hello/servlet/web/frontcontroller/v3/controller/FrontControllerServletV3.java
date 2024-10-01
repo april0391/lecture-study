@@ -1,12 +1,9 @@
 package hello.servlet.web.frontcontroller.v3.controller;
 
-import hello.servlet.web.frontcontroller.ModelView;
-import hello.servlet.web.frontcontroller.MyView;
-import hello.servlet.web.frontcontroller.v2.ControllerV2;
-import hello.servlet.web.frontcontroller.v2.controller.MemberFormControllerV2;
-import hello.servlet.web.frontcontroller.v2.controller.MemberListControllerV2;
-import hello.servlet.web.frontcontroller.v2.controller.MemberSaveControllerV2;
+import hello.servlet.web.frontcontroller.ModelAndView;
+import hello.servlet.web.frontcontroller.View;
 import hello.servlet.web.frontcontroller.v3.ControllerV3;
+import hello.servlet.web.frontcontroller.ViewResolver;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,45 +14,42 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "frontControllerServletV3", urlPatterns = "/front-controller/v3/*")
+@WebServlet(name = "frontControllerServletV3", value = "/front-controller/v3/*")
 public class FrontControllerServletV3 extends HttpServlet {
 
-    private Map<String, ControllerV3> controllerMap = new HashMap<>();
+    private final Map<String, ControllerV3> handlerMapping = new HashMap<>();
+    private final ViewResolver viewResolver = new ViewResolver();
 
     public FrontControllerServletV3() {
-        controllerMap.put("/front-controller/v3/members/new-form", new MemberFormControllerV3());
-        controllerMap.put("/front-controller/v3/members/save", new MemberSaveControllerV3());
-        controllerMap.put("/front-controller/v3/members", new MemberListControllerV3());
+        handlerMapping.put("/front-controller/v3/members/new-form", new MemberFormController());
+        handlerMapping.put("/front-controller/v3/members/save", new MemberSaveController());
+        handlerMapping.put("/front-controller/v3/members", new MemberListController());
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String requestURI = request.getRequestURI();
+        ControllerV3 controllerV3 = handlerMapping.get(requestURI);
 
-        ControllerV3 controller = controllerMap.get(requestURI);
-        if (controller == null) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        if (controllerV3 == null) {
+            response.setStatus(404);
             return;
         }
+        Map<String, String> paramMap = paramMapInit(request);
 
-        Map<String, String> paramMap = createParamMap(request);
-        ModelView mv = controller.process(paramMap);
+        ModelAndView modelAndView = controllerV3.process(paramMap);
+        String viewPath = viewResolver.resolve(modelAndView.getViewName());
 
-        String viewName = mv.getViewName();
-        MyView view = viewResolver(viewName);
-
-        view.render(mv.getModel(), request, response);
+        View view = new View(viewPath);
+        view.render(modelAndView.getModel(), request, response);
     }
 
-    private MyView viewResolver(String viewName) {
-        return new MyView("/WEB-INF/views/" + viewName + ".jsp");
-    }
-
-    private Map<String, String> createParamMap(HttpServletRequest request) {
-                        Map<String, String> paramMap = new HashMap<>();
-        request.getParameterNames().asIterator()
-                .forEachRemaining(paramName -> paramMap.put(paramName, request.getParameter(paramName)));
+    private Map<String, String> paramMapInit(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<>();
+        request.getParameterNames()
+                .asIterator()
+                .forEachRemaining(name -> paramMap.put(name, request.getParameter(name)));
         return paramMap;
     }
+
 }

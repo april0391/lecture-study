@@ -1,9 +1,8 @@
 package hello.servlet.web.frontcontroller.v5.adapter;
 
-import hello.servlet.web.frontcontroller.ModelView;
-import hello.servlet.web.frontcontroller.v3.ControllerV3;
+import hello.servlet.web.frontcontroller.ModelAndView;
 import hello.servlet.web.frontcontroller.v4.ControllerV4;
-import hello.servlet.web.frontcontroller.v5.MyHandlerAdapter;
+import hello.servlet.web.frontcontroller.v5.HandlerAdapter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,31 +11,28 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ControllerV4HandlerAdapter implements MyHandlerAdapter {
-
+public class ControllerV4HandlerAdapter implements HandlerAdapter {
     @Override
     public boolean supports(Object handler) {
-        return (handler instanceof ControllerV4);
+        return handler instanceof ControllerV4;
     }
 
     @Override
-    public ModelView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException, IOException {
-        ControllerV4 controller = (ControllerV4) handler;
+    public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException, IOException {
+        ControllerV4 controllerV4 = (ControllerV4) handler;
 
-        Map<String, String> paramMap = createParamMap(request);
-        HashMap<String, Object> model = new HashMap<>();
+        Map<String, String> paramMap = paramMapInit(request);
+        Map<String, Object> model = new HashMap<>();
 
-        String viewName = controller.process(paramMap, model);
-
-        ModelView mv = new ModelView(viewName);
-        mv.setModel(model);
-        return mv;
+        String viewName = controllerV4.process(paramMap, model);
+        return new ModelAndView(viewName, model);
     }
 
-    private Map<String, String> createParamMap(HttpServletRequest request) {
+    private Map<String, String> paramMapInit(HttpServletRequest request) {
         Map<String, String> paramMap = new HashMap<>();
-        request.getParameterNames().asIterator()
-                .forEachRemaining(paramName -> paramMap.put(paramName, request.getParameter(paramName)));
+        request.getParameterNames()
+                .asIterator()
+                .forEachRemaining(name -> paramMap.put(name, request.getParameter(name)));
         return paramMap;
     }
 }
