@@ -8,7 +8,7 @@ import org.springframework.web.HttpRequestHandler;
 
 import java.io.IOException;
 
-@Component("/springmvc/request-handler")
+@Component("/springmvc-request-handler")
 public class MyHttpRequestHandler implements HttpRequestHandler {
     @Override
     public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

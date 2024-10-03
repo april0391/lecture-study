@@ -2,78 +2,55 @@ package hello.springmvc.basic.requestmapping;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MappingController {
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @RequestMapping(value = {"/hello-basic", "/hello-basic2"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/hello-basic", "/hello-basic-array"}, method = RequestMethod.GET)
     public String helloBasic() {
         log.info("helloBasic");
         return "ok";
     }
 
-    /**
-     * PathVariable 사용
-     * 변수명이 같으면 생략 가능
-     * @PathVariable("userId") String userId -> @PathVariable String userId
-     * /mapping/userA
-     */
-    @GetMapping("/mapping/{userId}/orders/{orderId}")
-    public String mappingPath(@PathVariable("userId") String userId, @PathVariable Long orderId) {
-        log.info("mappingPath userId={}, orderId={}", userId, orderId);
+    @GetMapping("/mapping/{userId}")
+    public String mappingPath(@PathVariable("userId") String data) {
+        log.info("mappingPath = {}", data);
         return "ok";
     }
-    /**
-     * 파라미터로 추가 매핑
-     * params="mode",
-     * params="!mode"
-     * params="mode=debug"
-     * params="mode!=debug" (! = )
-     * params = {"mode=debug","data=good"}
-     */
+
+    @GetMapping("/mapping/{id}/{username}")
+    public String mappingPath2(@PathVariable String id, @PathVariable String username) {
+        log.info("mappingPath = {}, {}", id, username);
+        return "ok";
+    }
+
     @GetMapping(value = "/mapping-param", params = "mode=debug")
-    public String mappingParam() {
-        log.info("mappingParam");
+    public String mappingParam(String mode) {
+        log.info("mappingParam = {}", mode);
         return "ok";
     }
-    /**
-     * 특정 헤더로 추가 매핑
-     * headers="mode",
-     * headers="!mode"
-     * headers="mode=debug"
-     * headers="mode!=debug" (! = )
-     */
+
     @GetMapping(value = "/mapping-header", headers = "mode=debug")
-    public String mappingHeader() {
-        log.info("mappingHeader");
+    public String mappingHeader(String mode) {
+        log.info("mappingHeader = {}", mode);
         return "ok";
     }
-    /**
-     * Content-Type 헤더 기반 추가 매핑 Media Type
-     * consumes="application/json"
-     * consumes="!application/json"
-     * consumes="application/*"
-     * consumes="*\/*"
-     * MediaType.APPLICATION_JSON_VALUE
-     */
-    @PostMapping(value = "/mapping-consume", consumes = "application/json")
-    public String mappingConsumes() {
+
+    @GetMapping(value = "/mapping-consume", consumes = "application/json")
+    public String mappingConsumes(String mode) {
         log.info("mappingConsumes");
         return "ok";
     }
-    /**
-     * Accept 헤더 기반 Media Type
-     * produces = "text/html"
-     * produces = "!text/html"
-     * produces = "text/*"
-     * produces = "*\/*"
-     */
-    @PostMapping(value = "/mapping-produce", produces = "text/html")
-    public String mappingProduces() {
+
+    @GetMapping(value = "/mapping-produce", produces = MediaType.TEXT_HTML_VALUE)
+    public String mappingProduces(String mode) {
         log.info("mappingProduces");
         return "ok";
     }
+
+
 }

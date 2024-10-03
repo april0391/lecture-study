@@ -18,13 +18,13 @@ public class SpringMemberControllerV3 {
     private MemberRepository memberRepository = MemberRepository.getInstance();
 
     @GetMapping("/new-form")
+//    @RequestMapping(value = "/new-form", method = RequestMethod.GET)
     public String newForm() {
         return "new-form";
     }
 
     @PostMapping("/save")
-    public String save(
-            @RequestParam("username") String username,
+    public String save(@RequestParam("username") String username,
             @RequestParam("age") int age,
             Model model) {
         Member member = new Member(username, age);
@@ -39,6 +39,5 @@ public class SpringMemberControllerV3 {
         model.addAttribute("members", memberRepository.findAll());
         return "members";
     }
-
 
 }

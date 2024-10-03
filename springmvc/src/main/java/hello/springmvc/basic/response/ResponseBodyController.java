@@ -27,7 +27,7 @@ public class ResponseBodyController {
     }
 
     @ResponseBody
-    @GetMapping("/response-body-string-v2")
+    @GetMapping("/response-body-string-v3")
     public String responseBodyV3() {
         return "ok";
     }

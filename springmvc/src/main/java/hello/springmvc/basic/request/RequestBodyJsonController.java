@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,45 +29,44 @@ public class RequestBodyJsonController {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping("/request-body-json-v1")
-    public void requestBodyJsonV1(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseEntity<String> requestBodyJsonV1(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServletInputStream inputStream = request.getInputStream();
         String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
 
         log.info("messageBody={}", messageBody);
         HelloData helloData = objectMapper.readValue(messageBody, HelloData.class);
-
-        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
-        response.getWriter().write("ok");
+        log.info("helloData={}", helloData);
+        return ResponseEntity.status(201).build();
     }
 
-    @ResponseBody
     @PostMapping("/request-body-json-v2")
-    public String requestBodyJsonV2(@RequestBody String messageBody) throws IOException {
+    public ResponseEntity<String> requestBodyJsonV2(@RequestBody String messageBody) throws IOException {
         log.info("messageBody={}", messageBody);
         HelloData helloData = objectMapper.readValue(messageBody, HelloData.class);
-        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
-        return "ok";
+        log.info("helloData={}", helloData);
+        return ResponseEntity.status(201).build();
     }
 
-    @ResponseBody
     @PostMapping("/request-body-json-v3")
-    public String requestBodyJsonV3(@RequestBody HelloData helloData) throws IOException {
-        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
-        return "ok";
+    public ResponseEntity<String> requestBodyJsonV3(@RequestBody HelloData helloData) throws IOException {
+        log.info("helloData={}", helloData);
+        return ResponseEntity.status(201).build();
     }
 
-    @ResponseBody
     @PostMapping("/request-body-json-v4")
-    public String requestBodyJsonV4(HttpEntity<HelloData> httpEntity) throws IOException {
-        HelloData data = httpEntity.getBody();
-        log.info("username={}, age={}", data.getUsername(), data.getAge());
-        return "ok";
+    public ResponseEntity<String> requestBodyJsonV4(HttpEntity<HelloData> data) throws IOException {
+        HelloData helloData = data.getBody();
+        log.info("helloData={}", helloData);
+        return ResponseEntity.status(201).build();
     }
 
     @ResponseBody
     @PostMapping("/request-body-json-v5")
-    public HelloData requestBodyJsonV5(@RequestBody HelloData data) throws IOException {
-        log.info("username={}, age={}", data.getUsername(), data.getAge());
-        return data;
+    public ResponseEntity<HelloData> requestBodyJsonV5(@RequestBody HelloData helloData, HttpServletResponse response) throws IOException {
+        log.info("helloData={}", helloData);
+        response.setStatus(201);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(helloData);
     }
+
 }
