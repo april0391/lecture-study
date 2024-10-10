@@ -1,23 +1,54 @@
 package hello.itemservice.domain.item;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
+import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
 class ItemRepositoryTest {
 
-    ItemRepository itemRepository = new ItemRepository();
+    private final ItemRepository itemRepository;
+    private final ApplicationContext ac;
+    private final EntityManager em;
 
-    @AfterEach
-    void afterEach() {
+    @Autowired
+    public ItemRepositoryTest(
+//            @Qualifier("springDataJpaItemRepository") ItemRepository itemRepository,
+            @Qualifier("inMemoryItemRepository") ItemRepository itemRepository,
+            ApplicationContext ac,
+            EntityManager em) {
+        this.itemRepository = itemRepository;
+        this.ac = ac;
+        this.em = em;
+    }
+
+    @BeforeEach
+    void beforeEach() {
         itemRepository.clearStore();
     }
 
     @Test
+    void beanTest() {
+        Map<String, ItemRepository> beansOfType = ac.getBeansOfType(ItemRepository.class);
+        beansOfType.forEach((k, v) -> {
+            System.out.print("k = " + k + ", ");
+            System.out.println("v = " + v);
+        });
+        System.out.println(itemRepository.getClass());
+    }
+
+    @Test
+    @Transactional
     void save() {
         //given
         Item item = new Item("itemA", 10000, 10);
@@ -26,11 +57,13 @@ class ItemRepositoryTest {
         Item savedItem = itemRepository.save(item);
 
         //then
-        Item findItem = itemRepository.findById(item.getId());
+        Item findItem = itemRepository.findById(item.getId()).get();
+
         assertThat(findItem).isEqualTo(savedItem);
     }
 
     @Test
+    @Transactional
     void findAll() {
         //given
         Item item1 = new Item("itemA", 10000, 10);
@@ -47,16 +80,20 @@ class ItemRepositoryTest {
     }
 
     @Test
+    @Transactional
     void updateItem() {
         //given
         Item item = new Item("item1", 10000, 10);
         Item savedItem = itemRepository.save(item);
-        Long itemId = savedItem.getId();
 
         //when
+        Long itemId = savedItem.getId();
         Item updateParam = new Item("item2", 20000, 30);
         itemRepository.update(itemId, updateParam);
-        Item findItem = itemRepository.findById(itemId);
+        em.flush();
+        em.clear();
+
+        Item findItem = itemRepository.findById(itemId).get();
 
         //then
         assertThat(findItem.getId()).isEqualTo(item.getId());
@@ -64,4 +101,5 @@ class ItemRepositoryTest {
         assertThat(findItem.getPrice()).isEqualTo(updateParam.getPrice());
         assertThat(findItem.getQuantity()).isEqualTo(updateParam.getQuantity());
     }
+
 }

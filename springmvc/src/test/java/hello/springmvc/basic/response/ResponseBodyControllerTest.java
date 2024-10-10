@@ -29,9 +29,20 @@ class ResponseBodyControllerTest {
         String expectedJson = objectMapper.writeValueAsString(expectedResponse);
 
         // then
-        mockMvc.perform(MockMvcRequestBuilders.get("/response-body-json-v1")
-                .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/response-body-json-v1")
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(expectedJson));
     }
+
+    @Test
+    void responseBodyJsonTestWithTextHtmlAccept() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/response-body-json-v1")
+                        .accept(MediaType.TEXT_HTML))
+                .andExpect(MockMvcResultMatchers.status().isNotAcceptable());
+
+    }
+
 }
