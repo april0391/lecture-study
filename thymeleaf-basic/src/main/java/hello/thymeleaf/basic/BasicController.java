@@ -3,6 +3,7 @@ package hello.thymeleaf.basic;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -10,9 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.sql.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,15 +21,15 @@ import java.util.Map;
 @RequestMapping("/basic")
 public class BasicController {
 
-    @GetMapping("text-basic")
+    @GetMapping("/text-basic")
     public String textBasic(Model model) {
-        model.addAttribute("data", "Hello <b>Spring!</b>");
+        model.addAttribute("data", "Hello Spring");
         return "basic/text-basic";
     }
 
-    @GetMapping("text-unescaped")
+    @GetMapping("/text-unescaped")
     public String textUnescaped(Model model) {
-        model.addAttribute("data", "Hello <b>Spring!</b>");
+        model.addAttribute("data", "Hello <b>Spring</b>");
         return "basic/text-unescaped";
     }
 
@@ -37,13 +38,8 @@ public class BasicController {
         User userA = new User("userA", 10);
         User userB = new User("userB", 20);
 
-        List<User> list = new ArrayList<>();
-        list.add(userA);
-        list.add(userB);
-
-        Map<String, User> map = new HashMap<>();
-        map.put("userA", userA);
-        map.put("userB", userB);
+        List<User> list = List.of(userA, userB);
+        Map<String, User> map = Map.of("userA", userA, "userB", userB);
 
         model.addAttribute("user", userA);
         model.addAttribute("users", list);
@@ -88,18 +84,18 @@ public class BasicController {
         return "basic/operation";
     }
 
-    @GetMapping("attribute")
+    @GetMapping("/attribute")
     public String attribute(Model model) {
-        return "basic/attribute";
+        return "/basic/attribute";
     }
 
-    @GetMapping("each")
+    @GetMapping("/each")
     public String each(Model model) {
         addUsers(model);
         return "basic/each";
     }
 
-    @GetMapping("condition")
+    @GetMapping("/condition")
     public String condition(Model model) {
         addUsers(model);
         return "basic/condition";
@@ -124,13 +120,11 @@ public class BasicController {
         return "basic/javascript";
     }
 
-
     private void addUsers(Model model) {
         List<User> list = new ArrayList<>();
         list.add(new User("UserA", 10));
         list.add(new User("UserB", 20));
         list.add(new User("UserC", 30));
-
         model.addAttribute("users", list);
     }
 
@@ -142,13 +136,9 @@ public class BasicController {
     }
 
     @Data
+    @AllArgsConstructor
     static class User {
         private String username;
         private int age;
-
-        public User(String username, int age) {
-            this.username = username;
-            this.age = age;
-        }
     }
 }
