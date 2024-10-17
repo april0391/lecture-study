@@ -1,24 +1,22 @@
-package hello.login.domain.login;
+package hello.login.web.login;
 
-import hello.login.domain.member.Member;
 import hello.login.domain.member.MemberRepository;
+import hello.login.web.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class LoginService {
 
     private final MemberRepository memberRepository;
 
-    /**
-     * return null 로그인 실패
-     */
     public Member login(String loginId, String password) {
-        return memberRepository.findByLoginId(loginId)
-                .filter(m -> m.getPassword().equals(password))
-                .orElse(null);
+        Optional<Member> byLoginId = memberRepository.findByLoginId(loginId);
+        return byLoginId.filter(m -> m.getPassword().equals(password))
+                .orElseThrow(() -> new IllegalArgumentException("loginFail"));
     }
+
 }
