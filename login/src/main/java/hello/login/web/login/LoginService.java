@@ -19,4 +19,8 @@ public class LoginService {
                 .orElseThrow(() -> new IllegalArgumentException("loginFail"));
     }
 
+    public Member findById(Long id) {
+        return memberRepository.findById(id).orElseThrow();
+    }
+
 }
