@@ -1,6 +1,7 @@
-package hello.exception;
+package hello.exception.config;
 
-import hello.exception.filter.LogFilter;
+import hello.exception.filter.ErrorFilter;
+import hello.exception.filter.RequestFilter;
 import hello.exception.interceptor.LogInterceptor;
 import hello.exception.resolver.MyHandlerExceptionResolver;
 import hello.exception.resolver.UserHandlerExceptionResolver;
@@ -18,28 +19,38 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+//    @Bean
+    public FilterRegistrationBean<Filter> filterFilterRegistrationBean1() {
+        FilterRegistrationBean<Filter> bean = new FilterRegistrationBean<>();
+        bean.setFilter(new RequestFilter());
+        bean.setOrder(1);
+        bean.addUrlPatterns("/*");
+        bean.setDispatcherTypes(DispatcherType.REQUEST);
+        return bean;
+    }
+
+//    @Bean
+    public FilterRegistrationBean<Filter> filterFilterRegistrationBean2() {
+        FilterRegistrationBean<Filter> bean = new FilterRegistrationBean<>();
+        bean.setFilter(new ErrorFilter());
+        bean.setOrder(2);
+        bean.addUrlPatterns("/*");
+        bean.setDispatcherTypes(DispatcherType.ERROR);
+        return bean;
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LogInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/css/**", "*.ico", "/error", "/error-page/**"); //오류 페이지 경로 제외
+                .excludePathPatterns("/css/**", "*.ico", "/error", "/error-page/**");
     }
 
     @Override
     public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
         resolvers.add(new MyHandlerExceptionResolver());
         resolvers.add(new UserHandlerExceptionResolver());
-    }
-
-    //    @Bean
-    public FilterRegistrationBean logFilter() {
-        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new LogFilter());
-        filterRegistrationBean.setOrder(1);
-        filterRegistrationBean.addUrlPatterns("/*");
-        filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ERROR);
-        return filterRegistrationBean;
     }
 
 }
