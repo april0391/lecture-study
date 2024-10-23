@@ -31,7 +31,7 @@ public class ServletUploadControllerV2 {
     }
 
     @PostMapping("/upload")
-    public String saveFileV2(HttpServletRequest request) throws ServletException, IOException {
+    public String saveFileV1(HttpServletRequest request) throws ServletException, IOException {
         log.info("request={}", request);
 
         String itemName = request.getParameter("itemName");
@@ -47,17 +47,16 @@ public class ServletUploadControllerV2 {
             for (String headerName : headerNames) {
                 log.info("header {}: {}", headerName, part.getHeader(headerName));
             }
-            //편의 메서드
-            //content-disposition;filename
+            // 편의 메서드
+            // content-disposition: filename
             log.info("submittedFilename={}", part.getSubmittedFileName());
-            log.info("size={}", part.getSize());
 
-            //데이터 읽기
+            // 데이터 읽기
             InputStream inputStream = part.getInputStream();
             String body = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
             log.info("body={}", body);
 
-            //파일에 저장하기
+            // 파일에 저장하기
             if (StringUtils.hasText(part.getSubmittedFileName())) {
                 String fullPath = fileDir + part.getSubmittedFileName();
                 log.info("파일 저장 fullPath={}", fullPath);
@@ -67,5 +66,4 @@ public class ServletUploadControllerV2 {
 
         return "upload-form";
     }
-
 }

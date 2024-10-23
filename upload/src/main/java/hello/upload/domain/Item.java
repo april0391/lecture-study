@@ -11,4 +11,5 @@ public class Item {
     private String itemName;
     private UploadFile attachFile;
     private List<UploadFile> imageFiles;
+
 }
