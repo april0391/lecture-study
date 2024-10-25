@@ -1,29 +1,22 @@
 package hello.jdbc.repository;
 
 import hello.jdbc.domain.Member;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.support.JdbcUtils;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
-/**
- * JDBC - Connection Param
- */
+@RequiredArgsConstructor
 @Slf4j
 public class MemberRepositoryV2 {
 
     private final DataSource dataSource;
 
-    public MemberRepositoryV2(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     public Member save(Member member) throws SQLException {
-        String sql = "insert into member (member_id, money) values (?, ?)";
+        String sql = "INSERT INTO member VALUES (?, ?)";
 
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -35,7 +28,6 @@ public class MemberRepositoryV2 {
             pstmt.setInt(2, member.getMoney());
             pstmt.executeUpdate();
             return member;
-
         } catch (SQLException e) {
             log.error("db error", e);
             throw e;
@@ -45,7 +37,7 @@ public class MemberRepositoryV2 {
     }
 
     public Member findById(String memberId) throws SQLException {
-        String sql = "select * from member where member_id = ?";
+        String sql = "SELECT * FROM member WHERE member_id = ?";
 
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -56,26 +48,23 @@ public class MemberRepositoryV2 {
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, memberId);
             rs = pstmt.executeQuery();
-
             if (rs.next()) {
-                Member member = new Member();
-                member.setMemberId(rs.getString("member_id"));
-                member.setMoney(rs.getInt("money"));
-                return member;
+                String findMemberId = rs.getString("member_id");
+                int money = rs.getInt("money");
+                return new Member(findMemberId, money);
             } else {
                 throw new NoSuchElementException("member not found memberId=" + memberId);
             }
-
-        } catch(SQLException e ){
+        } catch (SQLException e) {
             log.error("db error", e);
             throw e;
         } finally {
-            close(con, pstmt, rs);
+            close(con, pstmt, null);
         }
     }
 
     public Member findById(Connection con, String memberId) throws SQLException {
-        String sql = "select * from member where member_id = ?";
+        String sql = "SELECT * FROM member WHERE member_id = ?";
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -84,29 +73,23 @@ public class MemberRepositoryV2 {
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, memberId);
             rs = pstmt.executeQuery();
-
             if (rs.next()) {
-                Member member = new Member();
-                member.setMemberId(rs.getString("member_id"));
-                member.setMoney(rs.getInt("money"));
-                return member;
+                String findMemberId = rs.getString("member_id");
+                int money = rs.getInt("money");
+                return new Member(findMemberId, money);
             } else {
                 throw new NoSuchElementException("member not found memberId=" + memberId);
             }
-
-        } catch(SQLException e ){
+        } catch (SQLException e) {
             log.error("db error", e);
             throw e;
         } finally {
-            //커넥션은 여기서 닫지 않는다.
-            JdbcUtils.closeResultSet(rs);
-            JdbcUtils.closeStatement(pstmt);
+            close(con, pstmt, null);
         }
     }
 
     public void update(String memberId, int money) throws SQLException {
-        String sql = "update member set money=? where member_id=?";
-
+        String sql = "UPDATE member SET money = ? WHERE member_id = ?";
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -116,7 +99,7 @@ public class MemberRepositoryV2 {
             pstmt.setInt(1, money);
             pstmt.setString(2, memberId);
             int resultSize = pstmt.executeUpdate();
-            log.info("resultSize = {}", resultSize);
+            log.info("resultSize={}", resultSize);
 
         } catch (SQLException e) {
             log.error("db error", e);
@@ -127,8 +110,7 @@ public class MemberRepositoryV2 {
     }
 
     public void update(Connection con, String memberId, int money) throws SQLException {
-        String sql = "update member set money=? where member_id=?";
-
+        String sql = "UPDATE member SET money = ? WHERE member_id = ?";
         PreparedStatement pstmt = null;
 
         try {
@@ -136,20 +118,18 @@ public class MemberRepositoryV2 {
             pstmt.setInt(1, money);
             pstmt.setString(2, memberId);
             int resultSize = pstmt.executeUpdate();
-            log.info("resultSize = {}", resultSize);
+            log.info("resultSize={}", resultSize);
 
         } catch (SQLException e) {
             log.error("db error", e);
             throw e;
         } finally {
-            //커넥션은 여기서 닫지 않는다.
-            JdbcUtils.closeStatement(pstmt);
+            close(con, pstmt, null);
         }
     }
 
     public void delete(String memberId) throws SQLException {
-        String sql = "delete from member where member_id=?";
-
+        String sql = "DELETE FROM member WHERE member_id = ?";
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -158,7 +138,7 @@ public class MemberRepositoryV2 {
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, memberId);
             int resultSize = pstmt.executeUpdate();
-            log.info("resultSize = {}", resultSize);
+            log.info("resultSize={}", resultSize);
 
         } catch (SQLException e) {
             log.error("db error", e);
@@ -168,25 +148,15 @@ public class MemberRepositoryV2 {
         }
     }
 
-    public List<Member> findAll() throws SQLException {
-        String sql = "select * from member";
-
+    public void recovery() throws SQLException {
+        String sql = "UPDATE member SET money = 10000";
         Connection con = null;
         PreparedStatement pstmt = null;
 
         try {
             con = getConnection();
             pstmt = con.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
-            List<Member> list = new ArrayList<>();
-
-            if (rs.next()) {
-                Member member = new Member();
-                member.setMemberId(rs.getString("member_id"));
-                member.setMoney(rs.getInt("money"));
-                list.add(member);
-            }
-            return list;
+            int resultSize = pstmt.executeUpdate();
 
         } catch (SQLException e) {
             log.error("db error", e);
@@ -196,10 +166,10 @@ public class MemberRepositoryV2 {
         }
     }
 
-    private void close(Connection con, Statement stmt, ResultSet rs) {
+    public void close(Connection con, Statement stmt, ResultSet rs) {
         JdbcUtils.closeResultSet(rs);
         JdbcUtils.closeStatement(stmt);
-        JdbcUtils.closeConnection(con);
+//        JdbcUtils.closeConnection(con);
     }
 
     private Connection getConnection() throws SQLException {

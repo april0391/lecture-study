@@ -2,13 +2,12 @@ package hello.jdbc.service;
 
 import com.zaxxer.hikari.HikariDataSource;
 import hello.jdbc.domain.Member;
-import hello.jdbc.repository.MemberRepositoryV1;
 import hello.jdbc.repository.MemberRepositoryV2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.SQLException;
 
@@ -16,17 +15,18 @@ import static hello.jdbc.connection.ConnectionConst.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@Slf4j
 class MemberServiceV2Test {
 
-    public static final String Member_A = "memberA";
-    public static final String Member_B = "memberB";
-    public static final String Member_EX = "ex";
+    public static final String MEMBER_A = "memberA";
+    public static final String MEMBER_B = "memberB";
+    public static final String MEMBER_EX = "memberEx";
 
-    private MemberRepositoryV2 memberRepository;
-    private MemberServiceV2 memberService;
+    MemberRepositoryV2 memberRepository;
+    MemberServiceV2 memberService;
 
     @BeforeEach
-    void before() {
+    void beforeEach() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(URL);
         dataSource.setUsername(USERNAME);
@@ -36,49 +36,33 @@ class MemberServiceV2Test {
     }
 
     @AfterEach
-    void after() throws SQLException {
-        memberRepository.delete(Member_A);
-        memberRepository.delete(Member_B);
-        memberRepository.delete(Member_EX);
+    void afterEach() throws SQLException {
+        memberRepository.recovery();
     }
 
     @Test
     @DisplayName("정상 이체")
-    void accountTransfer() throws SQLException {
-        //given
-        Member memberA = new Member(Member_A, 10000);
-        Member memberB = new Member(Member_B, 10000);
-        memberRepository.save(memberA);
-        memberRepository.save(memberB);
+    void transfer() throws SQLException {
+        memberService.transactionProxy(con -> memberService.transferLogic(MEMBER_A, MEMBER_B, 5000, con));
 
-        //when
-        memberService.accountTransfer(memberA.getMemberId(), memberB.getMemberId(), 2000);
-
-        //then
-        Member findMemberA = memberRepository.findById(memberA.getMemberId());
-        Member findMemberB = memberRepository.findById(memberB.getMemberId());
-        assertThat(findMemberA.getMoney()).isEqualTo(8000);
-        assertThat(findMemberB.getMoney()).isEqualTo(12000);
+        Member findMemberA = memberRepository.findById(MEMBER_A);
+        Member findMemberB = memberRepository.findById(MEMBER_B);
+        assertThat(findMemberA.getMoney()).isEqualTo(5000);
+        assertThat(findMemberB.getMoney()).isEqualTo(15000);
     }
 
     @Test
     @DisplayName("이체 중 예외 발생")
-    void accountTransferEx() throws SQLException {
-        //given
-        Member memberA = new Member(Member_A, 10000);
-        Member memberB = new Member(Member_EX, 10000);
-        memberRepository.save(memberA);
-        memberRepository.save(memberB);
+    void transferEx() throws SQLException {
+        assertThatThrownBy(() ->
+                memberService.transactionProxy(con -> memberService.transferLogic(MEMBER_A, MEMBER_EX, 5000, con))
+        ).isInstanceOf(IllegalStateException.class);
 
-        //when
-        assertThatThrownBy(() ->  memberService.accountTransfer(memberA.getMemberId(), memberB.getMemberId(), 2000))
-                .isInstanceOf(IllegalStateException.class);
+        Member findMemberA = memberRepository.findById(MEMBER_A);
+        Member findMemberEx = memberRepository.findById(MEMBER_EX);
 
-        //then
-        Member findMemberA = memberRepository.findById(memberA.getMemberId());
-        Member findMemberB = memberRepository.findById(memberB.getMemberId());
         assertThat(findMemberA.getMoney()).isEqualTo(10000);
-        assertThat(findMemberB.getMoney()).isEqualTo(10000);
+        assertThat(findMemberEx.getMoney()).isEqualTo(10000);
     }
 
 }

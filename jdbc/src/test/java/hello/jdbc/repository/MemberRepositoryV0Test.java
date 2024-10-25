@@ -1,40 +1,53 @@
 package hello.jdbc.repository;
 
+import hello.jdbc.connection.DBConnectionUtil;
 import hello.jdbc.domain.Member;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+
 @Slf4j
+@ActiveProfiles("test")
 class MemberRepositoryV0Test {
 
     MemberRepositoryV0 repository = new MemberRepositoryV0();
 
+    @BeforeEach
+    void delete() throws SQLException {
+        String sql = "DELETE FROM member";
+        Connection con = DBConnectionUtil.getConnection();
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        pstmt.executeUpdate();
+        repository.close(con, pstmt, null);
+    }
+
     @Test
     void crud() throws SQLException {
-        //save
-        Member member = new Member("memberV4", 10000);
+        // save
+        Member member = new Member("memberV0", 10000);
         repository.save(member);
 
-        //findById
-        Member findMember = repository.findById(member.getMemberId());
-        log.info("findMember = {}", findMember);
-        log.info("member == findMember {}", member == findMember);
-        log.info("member equals findMember {}", member.equals(findMember));
-        assertThat(findMember).isEqualTo(member);
+        // findById
+        Member findMember = repository.findById("memberV0");
+        log.info("findMember={}", findMember);
 
-        //update: money: 10000 -> 20000
+        assertThat(member).isEqualTo(findMember);
+
         repository.update(member.getMemberId(), 20000);
-        Member updatedMember = repository.findById(member.getMemberId());
+        Member updatedMember = repository.findById("memberV0");
         assertThat(updatedMember.getMoney()).isEqualTo(20000);
 
-        //delete
-        repository.delete(member.getMemberId());
+        // delete
+        repository.delete(updatedMember.getMemberId());
         assertThatThrownBy(() -> repository.findById(member.getMemberId()))
                 .isInstanceOf(NoSuchElementException.class);
     }

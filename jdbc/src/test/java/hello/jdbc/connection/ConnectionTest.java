@@ -25,14 +25,13 @@ public class ConnectionTest {
 
     @Test
     void dataSourceDriverManager() throws SQLException {
-        //DriverManagerDataSource - 항상 새로운 커넥션을 획득
         DataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
         useDataSource(dataSource);
     }
 
     @Test
     void dataSourceConnectionPool() throws SQLException, InterruptedException {
-        //커넥션 풀링
+        // 커넥션 풀링
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(URL);
         dataSource.setUsername(USERNAME);
@@ -41,7 +40,7 @@ public class ConnectionTest {
         dataSource.setPoolName("MyPool");
 
         useDataSource(dataSource);
-        Thread.sleep(1000);
+        Thread.sleep(2000);
     }
 
     private void useDataSource(DataSource dataSource) throws SQLException {
