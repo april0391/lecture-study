@@ -15,4 +15,6 @@ public interface ItemRepository {
 
     List<Item> findAll(ItemSearchCond cond);
 
+//    default void clearStore(){}
+
 }

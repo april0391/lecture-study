@@ -4,7 +4,6 @@ import hello.itemservice.repository.ItemRepository;
 import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import hello.itemservice.repository.memory.MemoryItemRepository;
-import hello.itemservice.repository.mybatis.ItemMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.support.JdbcTransactionManager;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -22,13 +21,20 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Transactional
-class ItemRepositoryTest {
+class ItemRepositoryTestV2 {
 
     @Autowired
     ItemRepository itemRepository;
     @Autowired
     ApplicationContext ac;
+    @Autowired
+    PlatformTransactionManager transactionManager;
+    TransactionStatus status;
+
+    @BeforeEach
+    void beforeEach() {
+        status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+    }
 
     @AfterEach
     void afterEach() {
@@ -36,6 +42,7 @@ class ItemRepositoryTest {
         if (itemRepository instanceof MemoryItemRepository) {
             ((MemoryItemRepository) itemRepository).clearStore();
         }
+        transactionManager.rollback(status);
     }
 
     @Test
@@ -43,11 +50,8 @@ class ItemRepositoryTest {
         JdbcTransactionManager jdbcTransactionManager = ac.getBean(JdbcTransactionManager.class);
         DataSource dataSource = jdbcTransactionManager.getDataSource();
         System.out.println("dataSource = " + dataSource.getClass());
-        ItemMapper bean = ac.getBean(ItemMapper.class);
-        System.out.println("bean.getClass() = " + bean.getClass());
     }
 
-//    @Commit
     @Test
     void save() {
         //given

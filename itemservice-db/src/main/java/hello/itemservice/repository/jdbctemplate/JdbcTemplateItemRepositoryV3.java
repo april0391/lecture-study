@@ -11,10 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
@@ -26,14 +24,14 @@ import java.util.Optional;
  * SimpleJdbcInsert
  */
 @Slf4j
+@Repository
 public class JdbcTemplateItemRepositoryV3 implements ItemRepository {
 
-//    private final JdbcTemplate template;
     private final NamedParameterJdbcTemplate template;
     private final SimpleJdbcInsert jdbcInsert;
 
-    public JdbcTemplateItemRepositoryV3(DataSource dataSource) {
-        this.template = new NamedParameterJdbcTemplate(dataSource);
+    public JdbcTemplateItemRepositoryV3(NamedParameterJdbcTemplate template, DataSource dataSource) {
+        this.template = template;
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("item")
                 .usingGeneratedKeyColumns("id");
@@ -50,25 +48,21 @@ public class JdbcTemplateItemRepositoryV3 implements ItemRepository {
 
     @Override
     public void update(Long itemId, ItemUpdateDto updateParam) {
-        String sql = "update item" +
-                " set item_name=:itemName, price=:price, quantity=:quantity " +
-                " where id=:id";
-
+        String sql = "UPDATE item SET item_name = :itemName, price = :price, quantity = :quantity WHERE id = :id";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("itemName", updateParam.getItemName())
                 .addValue("price", updateParam.getPrice())
                 .addValue("quantity", updateParam.getQuantity())
                 .addValue("id", itemId);
-
         template.update(sql, param);
     }
 
     @Override
     public Optional<Item> findById(Long id) {
-        String sql = "select id, item_name, price, quantity from item where id = :id";
+        String sql = "SELECT * FROM item WHERE id = :id";
+        Map<String, Long> param = Map.of("id", id);
         try {
-            Map<String, Object> param = Map.of("id", id);
-            Item item = template.queryForObject(sql, param, itemRowMapper());
+            Item item = template.queryForObject(sql, param, rowMapper());
             return Optional.of(item);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -82,14 +76,13 @@ public class JdbcTemplateItemRepositoryV3 implements ItemRepository {
 
         BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(cond);
 
-        String sql = "select id, item_name as itemName, price, quantity from item";
-        //동적 쿼리
+        String sql = "SELECT * FROM item";
         if (StringUtils.hasText(itemName) || maxPrice != null) {
             sql += " where";
         }
         boolean andFlag = false;
         if (StringUtils.hasText(itemName)) {
-            sql += " item_name like concat('%',:itemName,'%')";
+            sql += " item_name like concat('%', :itemName, '%')";
             andFlag = true;
         }
         if (maxPrice != null) {
@@ -99,11 +92,11 @@ public class JdbcTemplateItemRepositoryV3 implements ItemRepository {
             sql += " price <= :maxPrice";
         }
         log.info("sql={}", sql);
-
-        return template.query(sql, param, itemRowMapper());
+        return template.query(sql, param, rowMapper());
     }
 
-    public RowMapper<Item> itemRowMapper() {
+    private RowMapper<Item> rowMapper() {
         return BeanPropertyRowMapper.newInstance(Item.class);
     }
+
 }

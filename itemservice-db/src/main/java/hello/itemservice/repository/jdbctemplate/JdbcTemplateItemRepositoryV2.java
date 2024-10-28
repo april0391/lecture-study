@@ -4,56 +4,39 @@ import hello.itemservice.domain.Item;
 import hello.itemservice.repository.ItemRepository;
 import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import javax.sql.DataSource;
-import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 /**
  * NamedParameterJdbcTemplate
- * SqlParameterSource
- * - BeanPropertySqlParameterSource
- * - MapSqlParameterSource
- * Map
- *
- * BeanPropertyRowMapper
- *
  */
 @Slf4j
+@RequiredArgsConstructor
+@Repository
 public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
 
-//    private final JdbcTemplate template;
     private final NamedParameterJdbcTemplate template;
-
-    public JdbcTemplateItemRepositoryV2(DataSource dataSource) {
-        this.template = new NamedParameterJdbcTemplate(dataSource);
-    }
 
     @Override
     public Item save(Item item) {
-        String sql = "insert into item (item_name, price, quantity) values (:itemName, :price, :quantity)";
-
+        String sql = "INSERT INTO item (item_name, price, quantity) VALUES (:itemName, :price, :quantity)";
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource param = new BeanPropertySqlParameterSource(item);
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(sql, param, keyHolder);
-
         long key = keyHolder.getKey().longValue();
         item.setId(key);
         return item;
@@ -61,25 +44,21 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
 
     @Override
     public void update(Long itemId, ItemUpdateDto updateParam) {
-        String sql = "update item" +
-                " set item_name=:itemName, price=:price, quantity=:quantity " +
-                " where id=:id";
-
+        String sql = "UPDATE item SET item_name = :itemName, price = :price, quantity = :quantity WHERE id = :id";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("itemName", updateParam.getItemName())
                 .addValue("price", updateParam.getPrice())
                 .addValue("quantity", updateParam.getQuantity())
                 .addValue("id", itemId);
-
         template.update(sql, param);
     }
 
     @Override
     public Optional<Item> findById(Long id) {
-        String sql = "select id, item_name, price, quantity from item where id = :id";
+        String sql = "SELECT * FROM item WHERE id = :id";
+        Map<String, Long> param = Map.of("id", id);
         try {
-            Map<String, Object> param = Map.of("id", id);
-            Item item = template.queryForObject(sql, param, itemRowMapper());
+            Item item = template.queryForObject(sql, param, rowMapper());
             return Optional.of(item);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -93,14 +72,13 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
 
         BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(cond);
 
-        String sql = "select id, item_name as itemName, price, quantity from item";
-        //동적 쿼리
+        String sql = "SELECT * FROM item";
         if (StringUtils.hasText(itemName) || maxPrice != null) {
             sql += " where";
         }
         boolean andFlag = false;
         if (StringUtils.hasText(itemName)) {
-            sql += " item_name like concat('%',:itemName,'%')";
+            sql += " item_name like concat('%', :itemName, '%')";
             andFlag = true;
         }
         if (maxPrice != null) {
@@ -110,11 +88,11 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
             sql += " price <= :maxPrice";
         }
         log.info("sql={}", sql);
-
-        return template.query(sql, param, itemRowMapper());
+        return template.query(sql, param, rowMapper());
     }
 
-    public RowMapper<Item> itemRowMapper() {
+    private RowMapper<Item> rowMapper() {
         return BeanPropertyRowMapper.newInstance(Item.class);
     }
+
 }
