@@ -47,9 +47,10 @@ class ItemRepositoryTestV2 {
 
     @Test
     void beanTest() {
-        JdbcTransactionManager jdbcTransactionManager = ac.getBean(JdbcTransactionManager.class);
-        DataSource dataSource = jdbcTransactionManager.getDataSource();
-        System.out.println("dataSource = " + dataSource.getClass());
+        PlatformTransactionManager txManager = ac.getBean(PlatformTransactionManager.class);
+        System.out.println("txManager.getClass() = " + txManager.getClass());
+        ItemRepository bean = ac.getBean(ItemRepository.class);
+        System.out.println("bean.getClass() = " + bean.getClass());
     }
 
     @Test

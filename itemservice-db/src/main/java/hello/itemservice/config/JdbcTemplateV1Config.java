@@ -1,10 +1,9 @@
 package hello.itemservice.config;
 
-import com.zaxxer.hikari.HikariDataSource;
 import hello.itemservice.repository.ItemRepository;
 import hello.itemservice.repository.jdbctemplate.JdbcTemplateItemRepositoryV1;
 import hello.itemservice.service.ItemService;
-import hello.itemservice.service.ItemServiceV2;
+import hello.itemservice.service.ItemServiceV1;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +19,7 @@ public class JdbcTemplateV1Config {
 
     @Bean
     public ItemService itemService() {
-        return new ItemServiceV2(itemRepository());
+        return new ItemServiceV1(itemRepository());
     }
 
     @Bean

@@ -1,20 +1,24 @@
 package hello.itemservice.service;
 
 import hello.itemservice.domain.Item;
-import hello.itemservice.repository.ItemRepository;
 import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
+import hello.itemservice.repository.v2.ItemQueryRepositoryV2;
+import hello.itemservice.repository.v2.ItemRepositoryV2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
-public class ItemServiceV2 implements ItemService {
+@Service
+@Transactional
+public class ItemServiceV2_kim implements ItemService {
 
-    private final ItemRepository itemRepository;
+    private final ItemRepositoryV2 itemRepository;
+    private final ItemQueryRepositoryV2 query;
 
     @Override
     public Item save(Item item) {
@@ -23,7 +27,10 @@ public class ItemServiceV2 implements ItemService {
 
     @Override
     public void update(Long itemId, ItemUpdateDto updateParam) {
-        itemRepository.update(itemId, updateParam);
+        Item item = itemRepository.findById(itemId).orElseThrow();
+        item.setItemName(updateParam.getItemName());
+        item.setPrice(updateParam.getPrice());
+        item.setQuantity(updateParam.getQuantity());
     }
 
     @Override
@@ -33,6 +40,7 @@ public class ItemServiceV2 implements ItemService {
 
     @Override
     public List<Item> findItems(ItemSearchCond cond) {
-        return itemRepository.findAll(cond);
+        return query.findAll(cond);
     }
+
 }
