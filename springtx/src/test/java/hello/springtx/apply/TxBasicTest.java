@@ -11,18 +11,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import static org.assertj.core.api.Assertions.*;
-
 @Slf4j
 @SpringBootTest
 public class TxBasicTest {
 
-    @Autowired BasicService basicService;
+    @Autowired
+    BasicService basicService;
 
     @Test
     void proxyCheck() {
-        log.info("aop class={}", basicService.getClass());
-        assertThat(AopUtils.isAopProxy(basicService)).isTrue();
+        log.info("aop class={}", basicService);
+        Assertions.assertThat(AopUtils.isAopProxy(basicService)).isTrue();
     }
 
     @Test
@@ -33,10 +32,9 @@ public class TxBasicTest {
 
 
     @TestConfiguration
-    static class TxApplyBasicConfig {
-
+    static class TxApplyConfig {
         @Bean
-        BasicService basicService() {
+        public BasicService basicService() {
             return new BasicService();
         }
     }
@@ -57,4 +55,5 @@ public class TxBasicTest {
             log.info("tx active={}", txActive);
         }
     }
+
 }

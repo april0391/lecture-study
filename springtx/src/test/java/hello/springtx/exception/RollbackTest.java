@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 public class RollbackTest {
@@ -18,26 +19,26 @@ public class RollbackTest {
 
     @Test
     void runtimeException() {
-        Assertions.assertThatThrownBy(() -> service.runtimeException())
+        assertThatThrownBy(() -> service.runtimeException())
                 .isInstanceOf(RuntimeException.class);
     }
 
     @Test
     void checkedException() {
-        Assertions.assertThatThrownBy(() -> service.checkedException())
-                .isInstanceOf(MyException.class);
+        assertThatThrownBy(() -> service.checkedException())
+                .isInstanceOf(RollbackService.MyException.class);
     }
 
     @Test
     void rollbackFor() {
-        Assertions.assertThatThrownBy(() -> service.rollbackFor())
-                .isInstanceOf(MyException.class);
+        assertThatThrownBy(() -> service.rollbackFor())
+                .isInstanceOf(RollbackService.MyException.class);
     }
 
     @TestConfiguration
     static class RollbackTestConfig {
         @Bean
-        RollbackService rollbackService() {
+        public RollbackService rollbackService() {
             return new RollbackService();
         }
     }
@@ -45,28 +46,29 @@ public class RollbackTest {
     @Slf4j
     static class RollbackService {
 
-        //런타임 예외 발생: 롤백
+        // 언체크 예외 발생: 롤백
         @Transactional
         public void runtimeException() {
             log.info("call runtimeException");
             throw new RuntimeException();
         }
 
-        //체크 예외: 커밋
+        // 체크 예외 발생: 커밋
         @Transactional
         public void checkedException() throws MyException {
             log.info("call checkedException");
             throw new MyException();
         }
 
-        //체크 예외 rollbackFor 지정: 롤백
+        // 체크 예외 발생 rollbackFor 지정: 롤백
         @Transactional(rollbackFor = MyException.class)
         public void rollbackFor() throws MyException {
-            log.info("call checkedException");
+            log.info("call rollbackFor");
             throw new MyException();
         }
 
+        static class MyException extends Exception {
+        }
     }
-    static class MyException extends Exception {
-    }
+
 }

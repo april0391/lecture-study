@@ -6,17 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 @SpringBootTest
 public class TxLevelTest {
 
-    @Autowired LevelService service;
+    @Autowired
+    LevelService service;
 
     @Test
     void orderTest() {
+//        Assertions.assertThat(AopUtils.isAopProxy(service)).isTrue();
+//        System.out.println("service.getClass() = " + service.getClass());
         service.write();
         service.read();
     }
@@ -36,7 +38,7 @@ public class TxLevelTest {
         @Transactional(readOnly = false)
         public void write() {
             log.info("call write");
-            printTxInfo();
+            this.printTxInfo();
         }
 
         public void read() {
@@ -48,7 +50,7 @@ public class TxLevelTest {
             boolean txActive = TransactionSynchronizationManager.isActualTransactionActive();
             log.info("tx active={}", txActive);
             boolean readOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
-            log.info("tx readOnly={}", readOnly);
+            log.info("readOnly={}", readOnly);
         }
     }
 }

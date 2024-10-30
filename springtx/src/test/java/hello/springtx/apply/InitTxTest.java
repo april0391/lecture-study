@@ -3,7 +3,9 @@ package hello.springtx.apply;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -14,16 +16,24 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @SpringBootTest
 public class InitTxTest {
 
+    @Autowired Hello hello;
+
     @Test
     void go() {
 
     }
 
+
     @TestConfiguration
     static class InitTxTestConfig {
         @Bean
-        Hello hello() {
+        public Hello hello() {
             return new Hello();
+        }
+
+        @Bean
+        ApplicationRunner applicationRunner() {
+            return args -> System.out.println("InitTxTestConfig.applicationRunner");
         }
     }
 
@@ -37,11 +47,10 @@ public class InitTxTest {
             log.info("Hello init @PostConstruct tx active={}", isActive);
         }
 
-        @EventListener(ApplicationReadyEvent.class)
-        @Transactional
+        @EventListener(ApplicationStartedEvent.class)
         public void initV2() {
             boolean isActive = TransactionSynchronizationManager.isActualTransactionActive();
-            log.info("Hello init @ApplicationReadyEvent tx active={}", isActive);
+            log.info("Hello init ApplicationStartedEvent tx active={}", isActive);
         }
     }
 }

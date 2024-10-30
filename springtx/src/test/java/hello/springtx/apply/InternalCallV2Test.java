@@ -2,7 +2,6 @@ package hello.springtx.apply;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Internal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,45 +14,43 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @SpringBootTest
 public class InternalCallV2Test {
 
-    @Autowired CallService callService;
+    @Autowired
+    CallService callService;
 
     @Test
     void printProxy() {
-        log.info("callService class={}", callService.getClass());
+        log.info("callService class={}", callService);
     }
 
     @Test
-    void externalCallV2() {
+    void internalCall() {
+        callService.internal();
+    }
+
+    @Test
+    void externalCall() {
         callService.external();
     }
 
-    @TestConfiguration
-    static class InternalCallV1TestConfig {
-
-        @Bean
-        CallService callService() {
-            return new CallService(internalService());
-        }
-
-        @Bean
-        InternalService internalService() {
-            return new InternalService();
-        }
-    }
 
     @Slf4j
+    @RequiredArgsConstructor
     static class CallService {
 
+        @Autowired
         private final InternalService internalService;
 
-        public CallService(InternalService internalService) {
-            this.internalService = internalService;
-        }
-
         public void external() {
-            log.info("call external");;
+            log.info("call external");
+            log.info("internalService={}", internalService.getClass());
             printTxInfo();
             internalService.internal();
+        }
+
+        @Transactional
+        public void internal() {
+            log.info("call internal");
+            printTxInfo();
         }
 
         private void printTxInfo() {
@@ -62,7 +59,6 @@ public class InternalCallV2Test {
         }
     }
 
-    @Slf4j
     static class InternalService {
 
         @Transactional
@@ -74,6 +70,19 @@ public class InternalCallV2Test {
         private void printTxInfo() {
             boolean txActive = TransactionSynchronizationManager.isActualTransactionActive();
             log.info("tx active={}", txActive);
+        }
+    }
+
+    @TestConfiguration
+    static class InternalCallV1TestConfig {
+        @Bean
+        CallService callService() {
+            return new CallService(internalService());
+        }
+
+        @Bean
+        InternalService internalService() {
+            return new InternalService();
         }
     }
 
