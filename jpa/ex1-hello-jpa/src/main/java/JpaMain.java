@@ -1,3 +1,6 @@
+import domain.Member;
+import domain.Team;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -13,8 +16,14 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = em.find(Member.class, 2L);
-            em.remove(member);
+            Member member = new Member("park");
+            Team team = new Team("manU");
+            team.getMembers().add(member);
+            em.persist(member);
+            em.persist(team);
+
+            em.flush();
+            em.clear();
 
             tx.commit();
         } catch (Exception e) {
