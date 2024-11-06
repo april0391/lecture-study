@@ -4,45 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dec7c48a-8b8b-48bd-9acc-fe76248ef5f5" name="Changes" comment="jpa init">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/Member.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/Team.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../jpashop/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../jpashop/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../jpashop/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Address.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Member.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Order.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/OrderItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/OrderStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="dec7c48a-8b8b-48bd-9acc-fe76248ef5f5" name="Changes" comment="association mapping">
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/Locker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../jpashop/src/main/java/JpaShopMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Delivery.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/DeliveryStatus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/JpaMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/JpaMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Member.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../jpashop/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/Address.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/Album.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/BaseEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/Book.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/Category.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/Delivery.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/DeliveryStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/Item.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/Item_.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/Member.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/Movie.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/Order.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/OrderItem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/jpabook/jpashop/domain/OrderStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../jpashop/src/main/resources/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jpashop/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../jpashop/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/domain/OrderItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/OrderItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Role.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,11 +90,20 @@
       <option name="project" value="LOCAL" />
       <updated>1730713277620</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="association mapping">
+      <option name="closed" value="true" />
+      <created>1730818009858</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1730818009859</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="jpa init" />
-    <option name="LAST_COMMIT_MESSAGE" value="jpa init" />
+    <MESSAGE value="association mapping" />
+    <option name="LAST_COMMIT_MESSAGE" value="association mapping" />
   </component>
 </project>

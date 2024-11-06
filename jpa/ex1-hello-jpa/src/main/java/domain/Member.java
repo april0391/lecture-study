@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,12 +19,16 @@ public class Member {
 
     private String username;
 
-//    @Column(name = "team_id")
-//    private Long teamId;
-
     @ManyToOne(fetch = FetchType.LAZY) // EAGER 가 default
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @OneToOne
+    private Locker locker;
+
+    @ManyToMany
+    @JoinTable(name = "member_product")
+    private List<Product> products = new ArrayList<>();
 
     public Member(String username) {
         this.username = username;
@@ -30,6 +36,6 @@ public class Member {
 
     public Member(String username, Team team) {
         this.username = username;
-        this.team = team;
+//        this.team = team;
     }
 }

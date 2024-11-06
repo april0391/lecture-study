@@ -9,10 +9,6 @@ public class OrderItem {
     @Column(name = "order_item_id")
     private Long id;
 
-    private Integer orderPrice;
-
-    private Integer count;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private Order order;
@@ -20,6 +16,10 @@ public class OrderItem {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id")
     private Item item;
+
+    private Integer orderPrice;
+
+    private Integer count;
 
     public Integer getOrderPrice() {
         return this.item.getPrice() * this.count;

@@ -23,6 +23,7 @@ public class Team {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "team", fetch = FetchType.LAZY) // LAZY 가 default
+//    @JoinColumn(name = "team_id")
     private List<Member> members = new ArrayList<>();
 
     public Team(String name) {
