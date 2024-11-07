@@ -1,10 +1,14 @@
 import domain.Member;
 import domain.Team;
+import domain.item.Item;
+import domain.item.Movie;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.lang.module.ModuleFinder;
+import java.time.LocalDateTime;
 
 public class JpaMain {
 
@@ -16,12 +20,9 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member("park");
-            Team team = new Team("manU");
-            team.getMembers().add(member);
-            member.setTeam(team);
-            em.persist(member);
-            em.persist(team);
+            Member member = new Member();
+            member.setCreatedBy("kim");
+            member.setCreatedDate(LocalDateTime.now());
 
             em.flush();
             em.clear();

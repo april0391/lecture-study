@@ -4,23 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb5a924b-a63c-47ab-9a2e-73b6b00d5847" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Locker.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/JpaShopMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/Category.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/Delivery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/DeliveryStatus.java" afterDir="false" />
+    <list default="true" id="eb5a924b-a63c-47ab-9a2e-73b6b00d5847" name="Changes" comment="association mapping">
+      <change afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/item/Album.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/item/Book.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/item/Item.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/item/Movie.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/item/Album.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/item/Book.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/item/Movie.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/JpaMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/JpaMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Team.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/JpaShopMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/JpaShopMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/item/Item.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/OrderItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/OrderItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,20 +47,21 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.JpaShopMain.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/LHJ/workspace/IntelliJ/mastering-spring/jpa/jpashop/src/main/java/domain&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.JpaShopMain.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/LHJ/workspace/IntelliJ/mastering-spring/jpa/jpashop/src/main/java/domain",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="domain" />
@@ -89,6 +93,19 @@
       <option name="presentableId" value="Default" />
       <updated>1730814104918</updated>
     </task>
+    <task id="LOCAL-00001" summary="association mapping">
+      <option name="closed" value="true" />
+      <created>1730904048533</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1730904048533</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="association mapping" />
+    <option name="LAST_COMMIT_MESSAGE" value="association mapping" />
   </component>
 </project>

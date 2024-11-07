@@ -1,5 +1,7 @@
-package domain;
+package domain.item;
 
+import domain.BaseEntity;
+import domain.Category;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,7 +10,9 @@ import java.util.List;
 
 @Data
 @Entity
-public class Item {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
+public class Item extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "item_id")

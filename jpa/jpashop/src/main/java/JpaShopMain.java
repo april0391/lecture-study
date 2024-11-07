@@ -1,3 +1,6 @@
+import domain.item.Album;
+import domain.item.Item;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -12,6 +15,8 @@ public class JpaShopMain {
         tx.begin();
 
         try {
+            Item item = em.find(Item.class, 4L);
+            item.setPrice(10000);
 
             tx.commit();
         } catch (Exception e) {
