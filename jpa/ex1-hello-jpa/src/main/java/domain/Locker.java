@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Data
-@Entity
+//@Entity
 public class Locker {
 
     @Id @GeneratedValue

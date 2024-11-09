@@ -7,29 +7,34 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-public class Member extends BaseEntity {
+public class Member {
 
     @Id @GeneratedValue
     private Long id;
 
     private String username;
 
-    @ManyToOne(fetch = FetchType.LAZY) // EAGER 가 default
-    @JoinColumn(name = "team_id")
-    private Team team;
+    @Embedded
+    private Address homeAddress;
 
-    @OneToOne
-    private Locker locker;
+    @ElementCollection
+    @CollectionTable(name = "favorite_food", joinColumns =
+        @JoinColumn(name = "member_id")
+    )
+    @Column(name = "food_name")
+    private Set<String> favoriteFoods = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "member_product")
-    private List<Product> products = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "address")
+    private List<Address> addressHistory = new ArrayList<>();
 
     public Member(String username) {
         this.username = username;
@@ -37,6 +42,5 @@ public class Member extends BaseEntity {
 
     public Member(String username, Team team) {
         this.username = username;
-//        this.team = team;
     }
 }

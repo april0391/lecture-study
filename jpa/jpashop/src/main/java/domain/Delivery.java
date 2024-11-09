@@ -13,7 +13,7 @@ public class Delivery {
 
     private DeliveryStatus status;
 
-    @OneToOne(mappedBy = "delivery")
+    @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     private Order order;
 
 
