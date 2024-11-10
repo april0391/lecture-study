@@ -1,12 +1,10 @@
-package domain;
+package jpql;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 
 import javax.persistence.Embeddable;
 
-@Getter
-@EqualsAndHashCode
+@Data
 @Embeddable
 public class Address {
 

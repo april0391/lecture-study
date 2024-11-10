@@ -5,21 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb5a924b-a63c-47ab-9a2e-73b6b00d5847" name="Changes" comment="advanced association mapping">
-      <change afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/ThreadMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/cascade/Child.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/cascade/Parent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/JpaMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/JpaMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Locker.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Locker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/java/domain/Team.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/src/main/resources/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex1-hello-jpa/target/classes/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ex1-hello-jpa/target/classes/META-INF/persistence.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Address.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/Delivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Delivery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Order.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

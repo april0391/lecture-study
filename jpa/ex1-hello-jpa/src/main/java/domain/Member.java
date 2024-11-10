@@ -34,7 +34,7 @@ public class Member {
 
     @ElementCollection
     @CollectionTable(name = "address")
-    private List<Address> addressHistory = new ArrayList<>();
+    private Set<Address> addressHistory = new HashSet<>();
 
     public Member(String username) {
         this.username = username;

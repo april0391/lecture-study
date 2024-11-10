@@ -9,6 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Set;
 
@@ -22,24 +25,7 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setUsername("hello");
-            member.setHomeAddress(new Address("home", "street", "10000"));
 
-            member.getFavoriteFoods().add("치킨");
-            member.getFavoriteFoods().add("삼겹살");
-            member.getFavoriteFoods().add("피자");
-
-            member.getAddressHistory().add(new Address("old city1", "old street", "100"));
-            member.getAddressHistory().add(new Address("old city2", "old street", "100"));
-            em.persist(member);
-            em.flush();
-            em.clear();
-
-            System.out.println("============== START ==============");
-            Member findMember = em.find(Member.class, member.getId());
-            findMember.getAddressHistory().remove(new Address("old city1", "old street", "100"));
-            findMember.getAddressHistory().add(new Address("new city1", "old street", "100"));
 
             tx.commit();
         } catch (Exception e) {
