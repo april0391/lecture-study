@@ -12,6 +12,7 @@ import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +26,42 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team1 = new Team();
+            team1.setName("맨유");
+            em.persist(team1);
 
+            Team team2 = new Team();
+            team2.setName("맨시티");
+            em.persist(team2);
+
+            Member member1 = new Member();
+            member1.setUsername("회원1");
+            member1.setTeam(team1);
+            em.persist(member1);
+
+            Member member2 = new Member();
+            member2.setUsername("회원2");
+            member2.setTeam(team2);
+            em.persist(member2);
+
+            Member member3 = new Member();
+            member3.setUsername("회원3");
+            member3.setTeam(team2);
+            em.persist(member3);
+
+            em.flush();
+            em.clear();
+
+            String jpql = "SELECT t FROM Team t JOIN t.members m";
+            List<Team> resultList = em.createQuery(jpql, Team.class)
+                    .getResultList();
+
+            for (Team r : resultList) {
+                System.out.println(r.getName() + ", " + r.getMembers().size());
+                for (Member m : r.getMembers()) {
+                    System.out.println("m = " + m);
+                }
+            }
 
             tx.commit();
         } catch (Exception e) {

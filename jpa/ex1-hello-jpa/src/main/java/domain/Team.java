@@ -21,9 +21,9 @@ public class Team {
 
     private String name;
 
-    /*@ToString.Exclude
+    @ToString.Exclude
     @OneToMany(mappedBy = "team", fetch = FetchType.LAZY) // LAZY 가 default
-    private List<Member> members = new ArrayList<>();*/
+    private List<Member> members = new ArrayList<>();
 
     public Team(String name) {
         this.name = name;

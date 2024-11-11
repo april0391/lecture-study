@@ -5,22 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dec7c48a-8b8b-48bd-9acc-fe76248ef5f5" name="Changes" comment="proxy, value type">
-      <change afterPath="$PROJECT_DIR$/../hello/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hello/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hello/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hello/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hello/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hello/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hello/src/main/java/jpql/JpaMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hello/src/main/java/jpql/Member.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hello/src/main/java/jpql/Team.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hello/src/main/resources/META-INF/persistence.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/JpaMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/JpaMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../jpashop/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Address.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Delivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/../jpashop/src/main/java/domain/Delivery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

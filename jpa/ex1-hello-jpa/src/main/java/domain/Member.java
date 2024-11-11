@@ -3,6 +3,7 @@ package domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,7 +26,12 @@ public class Member {
     @Embedded
     private Address homeAddress;
 
-    @ElementCollection
+//    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    /*@ElementCollection
     @CollectionTable(name = "favorite_food", joinColumns =
         @JoinColumn(name = "member_id")
     )
@@ -34,7 +40,7 @@ public class Member {
 
     @ElementCollection
     @CollectionTable(name = "address")
-    private Set<Address> addressHistory = new HashSet<>();
+    private Set<Address> addressHistory = new HashSet<>();*/
 
     public Member(String username) {
         this.username = username;
