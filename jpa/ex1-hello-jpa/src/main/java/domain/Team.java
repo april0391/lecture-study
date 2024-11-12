@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class Team {
     private String name;
 
     @ToString.Exclude
+//    @BatchSize(size = 100)
     @OneToMany(mappedBy = "team", fetch = FetchType.LAZY) // LAZY 가 default
     private List<Member> members = new ArrayList<>();
 

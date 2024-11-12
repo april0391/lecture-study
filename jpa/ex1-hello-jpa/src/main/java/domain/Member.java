@@ -16,12 +16,15 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Entity
+@NamedQuery(name = "Member.findByUsername", query = "SELECT m FROM Member m WHERE m.username = :username")
 public class Member {
 
     @Id @GeneratedValue
     private Long id;
 
     private String username;
+
+    private int age;
 
     @Embedded
     private Address homeAddress;

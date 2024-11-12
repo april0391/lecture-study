@@ -49,19 +49,20 @@ public class JpaMain {
             member3.setTeam(team2);
             em.persist(member3);
 
-            em.flush();
-            em.clear();
+            String jpql = "SELECT m FROM Member m WHERE m.team = :team";
+            int i = em.createQuery("UPDATE Member m SET m.age = 20")
+                    .executeUpdate();
 
-            String jpql = "SELECT t FROM Team t JOIN t.members m";
-            List<Team> resultList = em.createQuery(jpql, Team.class)
-                    .getResultList();
+//            em.clear();
 
-            for (Team r : resultList) {
-                System.out.println(r.getName() + ", " + r.getMembers().size());
-                for (Member m : r.getMembers()) {
-                    System.out.println("m = " + m);
-                }
-            }
+            Member findMember = em.find(Member.class, member1.getId());
+
+            System.out.println("findMember = " + findMember.getAge());
+
+
+//            for (Member r : resultList) {
+//                System.out.println("r = " + r);
+//            }
 
             tx.commit();
         } catch (Exception e) {
