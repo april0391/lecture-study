@@ -1,26 +1,25 @@
-package hello.advanced.app.v1;
+package hello.advanced.aop.v2_traceWithSync;
 
+import hello.advanced.trace.TraceId;
 import hello.advanced.trace.TraceStatus;
 import hello.advanced.trace.hellotrace.HelloTraceV1;
+import hello.advanced.trace.hellotrace.HelloTraceV2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-@Repository
 @RequiredArgsConstructor
-public class OrderRepositoryV1 {
+@Repository
+public class OrderRepositoryV2 {
 
-    private final HelloTraceV1 trace;
+    private final HelloTraceV2 trace;
 
-    public void save(String itemId) {
-
-        TraceStatus status = null;
+    public void save(String itemId, TraceId traceId) {
+        TraceStatus status = trace.beginSync(traceId, "OrderRepository.save()");
         try {
-            status = trace.begin("OrderRepositoryV1.request()");
-            //저장 로직
-            if (itemId.equals("ex")) {
+            if ("ex".equals(itemId)) {
                 throw new IllegalStateException("예외 발생");
             }
-            sleep(1000);
+            getSleep(1000);
             trace.end(status);
 
         } catch (Exception e) {
@@ -29,7 +28,7 @@ public class OrderRepositoryV1 {
         }
     }
 
-    private void sleep(int millis) {
+    private void getSleep(int millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {

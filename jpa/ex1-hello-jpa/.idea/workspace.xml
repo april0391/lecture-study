@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dec7c48a-8b8b-48bd-9acc-fe76248ef5f5" name="Changes" comment="fetch join">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/JpaMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/JpaMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Team.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" afterDir="false" />
-    </list>
+    <list default="true" id="dec7c48a-8b8b-48bd-9acc-fe76248ef5f5" name="Changes" comment="Second completion of the JPA basic course" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -122,7 +115,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731335696929</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Second completion of the JPA basic course">
+      <option name="closed" value="true" />
+      <created>1731417335604</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1731417335604</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -130,6 +131,7 @@
     <MESSAGE value="association mapping" />
     <MESSAGE value="proxy, value type" />
     <MESSAGE value="fetch join" />
-    <option name="LAST_COMMIT_MESSAGE" value="fetch join" />
+    <MESSAGE value="Second completion of the JPA basic course" />
+    <option name="LAST_COMMIT_MESSAGE" value="Second completion of the JPA basic course" />
   </component>
 </project>

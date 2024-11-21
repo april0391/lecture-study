@@ -1,10 +1,10 @@
-package hello.advanced.app.v0;
+package hello.advanced.aop.v0_noTrace;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class OrderServiceV0 {
 
     private final OrderRepositoryV0 orderRepository;

@@ -1,11 +1,11 @@
-package hello.advanced.app.v0;
+package hello.advanced.aop.v0_noTrace;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @RequiredArgsConstructor
+@RestController
 public class OrderControllerV0 {
 
     private final OrderServiceV0 orderService;
