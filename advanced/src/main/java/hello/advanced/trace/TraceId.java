@@ -1,9 +1,12 @@
 package hello.advanced.trace;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.UUID;
 
+@ToString
 @Getter
 public class TraceId {
 
@@ -28,11 +31,11 @@ public class TraceId {
         return new TraceId(id, level + 1);
     }
 
-    public TraceId previousNextId(String id, int level) {
+    public TraceId createPreviousId() {
         return new TraceId(id, level - 1);
     }
 
-    public boolean isFirstLevel(int level) {
+    public boolean isFirstLevel() {
         return level == 0;
     }
 }

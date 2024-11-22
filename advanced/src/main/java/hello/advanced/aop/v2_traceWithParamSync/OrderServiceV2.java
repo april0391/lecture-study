@@ -1,8 +1,7 @@
-package hello.advanced.aop.v2_traceWithSync;
+package hello.advanced.aop.v2_traceWithParamSync;
 
 import hello.advanced.trace.TraceId;
 import hello.advanced.trace.TraceStatus;
-import hello.advanced.trace.hellotrace.HelloTraceV1;
 import hello.advanced.trace.hellotrace.HelloTraceV2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
