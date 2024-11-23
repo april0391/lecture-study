@@ -1,13 +1,11 @@
-package hello.advanced.trace.template;
+package hello.advanced.trace.strategy;
 
-import hello.advanced.trace.template.code.AbstractTemplate;
-import hello.advanced.trace.template.code.SubClassLogic1;
-import hello.advanced.trace.template.code.SubClassLogic2;
+import hello.advanced.trace.strategy.code.strategy.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
-public class TemplateMethodTest {
+public class ContextV2Test {
 
     @Test
     void templateMethodV0() {
@@ -15,25 +13,29 @@ public class TemplateMethodTest {
         logic2();
     }
 
-    /**
-     * 템플릿 메서드 패턴 적용
-     */
     @Test
-    void templateMethodV1() {
-        AbstractTemplate template1 = new SubClassLogic1();
-        template1.execute();
+    void strategyV1() {
+        ContextV2 context1 = new ContextV2();
+        context1.execute(new StrategyLogic1());
 
-        AbstractTemplate template2 = new SubClassLogic2();
-        template2.execute();
-
-        AbstractTemplate template3 = new AbstractTemplate() {
-            @Override
-            protected void call() {
-                log.info("비즈니스 로직3 실행");
-            }
-        };
-        System.out.println(template3.getClass());
+        ContextV2 context2 = new ContextV2();
+        context2.execute(new StrategyLogic2());
     }
+
+    @Test
+    void strategyV2() {
+        ContextV2 context1 = new ContextV2();
+        context1.execute(new Strategy() {
+            @Override
+            public void call() {
+                log.info("비즈니스 로직1 실행");
+            }
+        });
+
+        ContextV2 context2 = new ContextV2();
+        context2.execute(() -> log.info("비즈니스 로직2 실행"));
+    }
+
 
     private void logic1() {
         long startTime = System.currentTimeMillis();
