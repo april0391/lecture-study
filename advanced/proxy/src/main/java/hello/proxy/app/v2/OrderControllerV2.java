@@ -9,7 +9,6 @@ public class OrderControllerV2 {
     private final OrderServiceV2 orderService;
 
     public OrderControllerV2(OrderServiceV2 orderService) {
-        System.out.println("###");
         this.orderService = orderService;
     }
 
