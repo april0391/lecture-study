@@ -14,4 +14,5 @@ public class AspectV1 {
         log.info("[log] {}", joinPoint.getSignature()); // join point 시그니처
         return joinPoint.proceed();
     }
+
 }

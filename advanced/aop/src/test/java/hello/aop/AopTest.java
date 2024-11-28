@@ -11,14 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
+import static org.assertj.core.api.Assertions.*;
+
 @Slf4j
 @SpringBootTest
 //@Import(AspectV1.class)
 //@Import(AspectV2.class)
 //@Import(AspectV3.class)
 //@Import(AspectV4Pointcut.class)
-//@Import({AspectV5Order.LogAspect.class, AspectV5Order.TxAspect.class})
-@Import(AspectV6Advice.class)
+@Import({AspectV5Order.LogAspect.class, AspectV5Order.TxAspect.class})
 public class AopTest {
 
     @Autowired
@@ -40,9 +41,7 @@ public class AopTest {
 
     @Test
     void exception() {
-        Assertions.assertThatThrownBy(() -> orderService.orderItem("ex"))
+        assertThatThrownBy(() -> orderService.orderItem("ex"))
                 .isInstanceOf(IllegalStateException.class);
     }
-
-
 }

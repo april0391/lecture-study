@@ -9,10 +9,12 @@ import org.springframework.core.annotation.Order;
 @Slf4j
 public class AspectV5Order {
 
+    public static final String FULL_PACKAGE = "hello.aop.order.aop.Pointcuts.";
+
     @Aspect
     @Order(2)
     public static class LogAspect {
-        @Around("hello.aop.order.aop.Pointcuts.allOrder()")
+        @Around(FULL_PACKAGE + "allOrder()")
         public Object doLog(ProceedingJoinPoint joinPoint) throws Throwable {
             log.info("[log] {}", joinPoint.getSignature()); // join point 시그니처
             return joinPoint.proceed();
@@ -22,7 +24,8 @@ public class AspectV5Order {
     @Aspect
     @Order(1)
     public static class TxAspect {
-        @Around("hello.aop.order.aop.Pointcuts.orderAndService()")
+        // hello.aop.order 패키지와 하위 패키지이면서 클래스 이름 패턴이 *Service
+        @Around(FULL_PACKAGE + "orderAndService()")
         public Object doTransaction(ProceedingJoinPoint joinPoint) throws Throwable {
             try {
                 log.info("[트랜잭션 시작] {}", joinPoint.getSignature());
