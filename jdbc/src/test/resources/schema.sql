@@ -1,4 +1,0 @@
-CREATE TABLE MEMBER (
-    member_id VARCHAR(255) PRIMARY KEY,
-    money INT
-);
