@@ -36,5 +36,4 @@ public class DbConfig {
         log.info("jdbcTemplate 빈 등록");
         return new JdbcTemplate(dataSource());
     }
-
 }

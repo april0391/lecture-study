@@ -22,5 +22,4 @@ public class MemoryConfig {
     public MemoryFinder memoryFinder() {
         return new MemoryFinder();
     }
-
 }

@@ -7,11 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.TransactionManager;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
@@ -25,17 +24,17 @@ class DbConfigTest {
     TransactionManager transactionManager;
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    JdbcTemplate template;
 
     @Test
     void checkBean() {
-        log.info("dataSource = {}", dataSource);
-        log.info("transactionManager = {}", transactionManager);
-        log.info("jdbcTemplate = {}", jdbcTemplate);
+        log.info("dataSource={}", dataSource);
+        log.info("transactionManager={}", transactionManager);
+        log.info("template={}", template);
 
         assertThat(dataSource).isNotNull();
         assertThat(transactionManager).isNotNull();
-        assertThat(jdbcTemplate).isNotNull();
+        assertThat(template).isNotNull();
     }
 
 }

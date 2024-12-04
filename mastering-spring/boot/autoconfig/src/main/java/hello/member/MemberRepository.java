@@ -7,24 +7,24 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 @RequiredArgsConstructor
+@Repository
 public class MemberRepository {
 
-    public final JdbcTemplate template;
+    private final JdbcTemplate template;
 
     public void initTable() {
         template.execute("create table member(member_id varchar primary key, name varchar)");
     }
 
     public void save(Member member) {
-        template.update("insert into member(member_id, name) values(?,?)",
+        template.update("insert into member(member_id, name) values(?, ?)",
                 member.getMemberId(),
                 member.getName());
     }
 
     public Member find(String memberId) {
-        return template.queryForObject("select member_id, name from member where member_id=?",
+        return template.queryForObject("select member_id, name from member where member_id = ?",
                 BeanPropertyRowMapper.newInstance(Member.class),
                 memberId);
     }
@@ -33,5 +33,4 @@ public class MemberRepository {
         return template.query("select * from member",
                 BeanPropertyRowMapper.newInstance(Member.class));
     }
-
 }

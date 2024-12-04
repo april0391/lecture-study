@@ -1,27 +1,16 @@
 package memory;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Memory {
+
     private long used;
     private long max;
-
-    public Memory(long used, long max) {
-        this.used = used;
-        this.max = max;
-    }
-
-    public long getUsed() {
-        return used;
-    }
-
-    public long getMax() {
-        return max;
-    }
-
-    @Override
-    public String toString() {
-        return "Memory{" +
-                "used=" + used +
-                ", max=" + max +
-                '}';
-    }
 }

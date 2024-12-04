@@ -10,10 +10,8 @@ public class MemoryCondition implements Condition {
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        // -Dmemory=on
         String memory = context.getEnvironment().getProperty("memory");
-        log.info("memory = {}", memory);
-        return "on".equals(memory);
+        log.info("memory={}", memory);
+        return "on".equalsIgnoreCase(memory);
     }
-
 }
