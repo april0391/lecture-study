@@ -1,13 +1,13 @@
 package memory;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @Slf4j
+@RestController
 @RequiredArgsConstructor
 public class MemoryController {
 
@@ -16,7 +16,7 @@ public class MemoryController {
     @GetMapping("/memory")
     public Memory system() {
         Memory memory = memoryFinder.get();
-        log.info("memory = {}", memory);
+        log.info("memory={}", memory);
         return memory;
     }
 }

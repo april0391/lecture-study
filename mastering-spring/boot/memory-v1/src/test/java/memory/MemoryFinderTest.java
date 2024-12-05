@@ -12,4 +12,5 @@ class MemoryFinderTest {
         Memory memory = memoryFinder.get();
         assertThat(memory).isNotNull();
     }
+
 }
