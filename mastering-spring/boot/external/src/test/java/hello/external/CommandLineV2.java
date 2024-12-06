@@ -1,9 +1,11 @@
 package hello.external;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.DefaultApplicationArguments;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -24,15 +26,13 @@ public class CommandLineV2 {
         for (String optionName : optionNames) {
             log.info("option arg {}={}", optionName, appArgs.getOptionValues(optionName));
         }
+    }
 
-        List<String> url = appArgs.getOptionValues("url");
-        List<String> username = appArgs.getOptionValues("username");
-        List<String> password = appArgs.getOptionValues("password");
-        List<String> mode = appArgs.getOptionValues("mode");
-
-        log.info("url={}", url);
-        log.info("username={}", username);
-        log.info("password={}", password);
-        log.info("mode={}", mode);
+    @Test
+    void test() {
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        System.out.println("list = " + list);
     }
 }

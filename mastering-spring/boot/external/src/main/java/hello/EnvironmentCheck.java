@@ -17,10 +17,14 @@ public class EnvironmentCheck {
 
     @PostConstruct
     public void init() {
+        String common = env.getProperty("common");
+        String common2 = env.getProperty("common2");
         String url = env.getProperty("url");
         String username = env.getProperty("username");
         String password = env.getProperty("password");
 
+        log.info("env common={}", common);
+        log.info("env common2={}", common2);
         log.info("env url={}", url);
         log.info("env username={}", username);
         log.info("env password={}", password);

@@ -10,8 +10,7 @@ public class OsEnv {
     public static void main(String[] args) {
         Map<String, String> envMap = System.getenv();
         for (String key : envMap.keySet()) {
-            log.info("env {}={}", key, System.getenv(key));
+            log.info("env {}={}", key, envMap.get(key));
         }
     }
-
 }

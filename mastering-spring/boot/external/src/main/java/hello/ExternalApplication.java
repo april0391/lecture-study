@@ -8,6 +8,10 @@ public class ExternalApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ExternalApplication.class, args);
+        for (String arg : args) {
+            System.out.println("arg = " + arg);
+        }
+//        JavaSystem.print();
     }
 
 }
