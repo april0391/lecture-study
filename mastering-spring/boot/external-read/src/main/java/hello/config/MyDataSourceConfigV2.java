@@ -1,6 +1,7 @@
 package hello.config;
 
 import hello.datasource.MyDataSource;
+import hello.datasource.MyDataSourcePropertiesV1;
 import hello.datasource.MyDataSourcePropertiesV2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,12 +19,12 @@ public class MyDataSourceConfigV2 {
 
     @Bean
     public MyDataSource dataSource() {
-        return new MyDataSource(
-                properties.getUrl(),
+        return new MyDataSource(properties.getUrl(),
                 properties.getUsername(),
                 properties.getPassword(),
                 properties.getEtc().getMaxConnection(),
                 properties.getEtc().getTimeout(),
-                properties.getEtc().getOptions());
+                properties.getEtc().getOptions()
+        );
     }
 }

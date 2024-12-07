@@ -3,8 +3,8 @@ package hello.pay;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class OrderService {
 
     private final PayClient payClient;

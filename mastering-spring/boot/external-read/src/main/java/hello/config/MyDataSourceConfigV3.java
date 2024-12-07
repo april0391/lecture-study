@@ -19,12 +19,12 @@ public class MyDataSourceConfigV3 {
 
     @Bean
     public MyDataSource dataSource() {
-        return new MyDataSource(
-                properties.getUrl(),
+        return new MyDataSource(properties.getUrl(),
                 properties.getUsername(),
                 properties.getPassword(),
                 properties.getEtc().getMaxConnection(),
                 properties.getEtc().getTimeout(),
-                properties.getEtc().getOptions());
+                properties.getEtc().getOptions()
+        );
     }
 }
