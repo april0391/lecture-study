@@ -1,8 +1,10 @@
 package com.example.userservice.security;
 
+import com.example.userservice.dto.UserDto;
 import com.example.userservice.jpa.UserEntity;
 import com.example.userservice.jpa.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,16 +17,16 @@ import java.util.ArrayList;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+    private final ModelMapper mapper;
     private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("CustomUserDetailsService.loadUserByUsername");
         UserEntity entity = userRepository.findByEmail(username);
         if (entity == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new User(entity.getEmail(), entity.getEncryptedPwd(),
-                true, true, true, true, new ArrayList<>());
+
+        return new CustomUserDetails(mapper.map(entity, UserDto.class));
     }
 }

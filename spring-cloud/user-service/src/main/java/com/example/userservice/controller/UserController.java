@@ -20,16 +20,21 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/user-service")
+@RequestMapping("/")
 public class UserController {
 
     private final Environment env;
+    private final ModelMapper mapper;
     private final Greeting greeting;
     private final UserService userService;
 
     @GetMapping("/health_check")
     public String status() {
-        return String.format("It's Working in User Service on PORT %s", env.getProperty("local.server.port"));
+        return String.format("It's Working in User Service"
+                + "\n, port(local.server.port)=" + env.getProperty("local.server.port")
+                + "\n, port(server.port)=" + env.getProperty("server.port")
+                + "\n, token secret=" + env.getProperty("token.secret")
+                + "\n, token expiration time=" + env.getProperty("token.expiration_time"));
     }
 
     @GetMapping("/welcome")
@@ -53,8 +58,6 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
         System.out.println("requestUser = " + user);
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
         UserDto userDto = mapper.map(user, UserDto.class);
         UserDto responseUserDto = userService.createUser(userDto);
@@ -72,12 +75,5 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(responseUser);
     }
-
-    /*@GetMapping("/login")
-    public String login(@RequestBody RequestLogin requestLogin) {
-        System.out.println("requestLogin = " + requestLogin);
-
-        return null;
-    }*/
 
 }

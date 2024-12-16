@@ -1,0 +1,28 @@
+server:
+  port: 8888
+
+spring:
+  profiles:
+    active: native
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:///D:/LHJ/study/repo/native-file-repo
+        git:
+#          uri: file://D:/LHJ/study/git-local-repo  # 로컬 깃
+          uri: https://github.com/april0391/temp-config.git
+          default-label: master  # 브랜치
+          search-paths: config/  # yml 파일이 위치한 폴더 경로를 지정
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh
+
