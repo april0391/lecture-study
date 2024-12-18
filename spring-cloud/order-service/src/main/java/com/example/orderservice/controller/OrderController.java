@@ -32,10 +32,7 @@ public class OrderController {
     public ResponseEntity<List<ResponseOrder>> getOrder(@PathVariable String userId) {
         List<OrderEntity> orderList = orderService.getOrdersByUserId(userId);
         List<ResponseOrder> result = new ArrayList<>();
-        orderList.forEach(orderEntity -> {
-            ResponseOrder ro = mapper.map(orderEntity, ResponseOrder.class);
-            result.add(ro);
-        });
+        orderList.forEach(orderEntity -> result.add(mapper.map(orderEntity, ResponseOrder.class)));
 
         return ResponseEntity.ok(result);
     }

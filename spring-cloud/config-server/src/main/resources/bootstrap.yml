@@ -1,0 +1,6 @@
+encrypt:
+#  key: ChristianRonaldo7  #대칭키
+  key-store:  # 비대칭키
+    location: file:///D:/LHJ/study/repo/keystore/apiEncryptionKey.jks
+    password: test1234
+    alias: apiEncryptionKey

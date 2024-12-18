@@ -1,8 +1,7 @@
 package com.example.apigateway_service.filter;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import lombok.RequiredArgsConstructor;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpHeaders;
@@ -52,11 +51,10 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         String subject = null;
         String secret = env.getProperty("token.secret");
         try {
-            subject = Jwts.parser()
-                    .setSigningKey(secret)
+            subject = JWT
+                    .require(Algorithm.HMAC256(secret))
                     .build()
-                    .parseClaimsJws(jwt)
-                    .getBody()
+                    .verify(jwt)
                     .getSubject();
             System.out.println("subject = " + subject);
         } catch (Exception e){

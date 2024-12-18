@@ -74,6 +74,7 @@ spring:
             - Path=/order-service/**
 
 
+
         - id: first-service
           uri: lb://FIRST-SERVICE
           predicates:

@@ -1,10 +1,10 @@
 package com.example.userservice.security;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.vo.RequestLogin;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,14 +14,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -49,11 +45,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain, Authentication authResult) throws IOException, ServletException {
         CustomUserDetails principal = (CustomUserDetails) authResult.getPrincipal();
         UserDto userDto = principal.getUserDto();
-        String token = Jwts.builder()
-                .subject(userDto.getUserId())
-                .expiration(new Date(System.currentTimeMillis() + Long.parseLong(env.getProperty("token.expiration_time"))))
-                .signWith(SignatureAlgorithm.HS256, env.getProperty("token.secret"))
-                .compact();
+        String secret = env.getProperty("token.secret");
+        String token = JWT.create()
+                .withSubject(userDto.getUserId())
+                .withExpiresAt(new Date(System.currentTimeMillis() + Long.parseLong(env.getProperty("token.expiration_time"))))
+                .sign(Algorithm.HMAC256(secret));
 
         response.addHeader("token", token);
         response.addHeader("userId", userDto.getUserId());
