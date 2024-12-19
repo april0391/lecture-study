@@ -38,13 +38,15 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
+
+//	implementation 'io.micrometer:micrometer-observation'
+	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+	implementation 'io.zipkin.brave:brave-instrumentation-spring-web'
+	implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
 
 	implementation 'jakarta.validation:jakarta.validation-api:3.1.0'
-	// https://mvnrepository.com/artifact/com.auth0/java-jwt
 	implementation 'com.auth0:java-jwt:3.10.3'
-//	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
-//	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3' // 추가
-//	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3' // Jackson 사용 시
 	implementation 'org.modelmapper:modelmapper:3.2.2'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

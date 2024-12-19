@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -35,6 +37,7 @@ public class UserServiceImpl implements UserService {
     private final RestTemplate restTemplate;
     private final OrderServiceClient orderServiceClient;
     private final FeignErrorDecoder feignErrorDecoder;
+    private final CircuitBreakerFactory circuitBreakerFactory;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -66,19 +69,20 @@ public class UserServiceImpl implements UserService {
             log.error(e.getMessage());
         }*/
 
-        List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
+//        List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
+
+        log.info("Before call orders microservice");
+        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
+        List<ResponseOrder> orders = circuitbreaker.run(
+                () -> orderServiceClient.getOrders(userId),
+                throwable -> new ArrayList<>()
+        );
+        log.info("After call orders microservice");
+
         userDto.setOrders(orders);
 
         return userDto;
     }
-
-    /*private List<ResponseOrder> getResponseOrdersWithRestTemplate(String userId) {
-        String orderUrl = String.format(env.getProperty("order_service.url"), userId);
-        ResponseEntity<List<ResponseOrder>> orderListResponse =
-                restTemplate.exchange(orderUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
-        List<ResponseOrder> orderList = orderListResponse.getBody();
-        return orderList;
-    }*/
 
     @Override
     public Iterable<UserEntity> getUserByAll() {

@@ -36,6 +36,8 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.1.7'
+	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:3.1.7'
 
 	implementation 'org.modelmapper:modelmapper:3.2.2'  // model mapper
 	compileOnly 'org.projectlombok:lombok'
