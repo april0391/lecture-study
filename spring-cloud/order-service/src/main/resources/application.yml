@@ -19,12 +19,13 @@ spring:
       ddl-auto: update
     show-sql: true
 #    defer-datasource-initialization: true
-#  datasource:
+  datasource:
 #    driver-class-name: org.h2.Driver
-#    initialize: true
-    #    url: jdbc:h2:mem:db
+    initialize: true
 #    url: jdbc:h2:tcp://localhost/~/h2/lecture-cloud-ecommerce
-#    username: sa
+    url: jdbc:mysql://localhost:3306/mydb
+    username: root
+    password: 0000
   h2:
     console:
       enabled: true
