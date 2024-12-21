@@ -2,6 +2,9 @@ server:
   port: 60000
 
 spring:
+  output:
+    ansi:
+      enabled: always
 #  config:
 #    import: optional:configserver:http://127.0.0.1:8888/
   cloud:

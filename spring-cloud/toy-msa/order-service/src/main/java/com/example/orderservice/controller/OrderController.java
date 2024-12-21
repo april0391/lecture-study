@@ -49,12 +49,12 @@ public class OrderController {
 
     @PostMapping("/{userId}/orders")
     public ResponseEntity<ResponseOrder> createOrder(@PathVariable("userId") String userId,
-                                                     @RequestBody RequestOrder orderDetails) {
+                                                     @RequestBody RequestOrder requestOrder) {
         log.info("Before add orders data");
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        OrderDto orderDto = mapper.map(orderDetails, OrderDto.class);
+        OrderDto orderDto = mapper.map(requestOrder, OrderDto.class);
         orderDto.setUserId(userId);
         /* jpa */
         OrderDto createdOrder = orderService.createOrder(orderDto);
@@ -62,7 +62,7 @@ public class OrderController {
 
         /* kafka */
         orderDto.setOrderId(UUID.randomUUID().toString());
-        orderDto.setTotalPrice(orderDetails.getQty() * orderDetails.getUnitPrice());
+        orderDto.setTotalPrice(requestOrder.getQty() * requestOrder.getUnitPrice());
 
         /* send this order to the kafka */
         kafkaProducer.send("example-catalog-topic", orderDto);

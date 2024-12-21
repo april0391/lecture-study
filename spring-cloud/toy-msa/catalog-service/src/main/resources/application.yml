@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: catalog-service
+  output:
+    ansi:
+      enabled: always
   h2:
     console:
       enabled: true
