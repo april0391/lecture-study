@@ -1,0 +1,66 @@
+server:
+  port: 0
+
+spring:
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+#    defer-datasource-initialization: true
+  datasource:
+#    driver-class-name: org.h2.Driver
+    initialize: true
+#    url: jdbc:h2:tcp://localhost/~/h2/lecture-cloud-ecommerce
+    url: jdbc:mysql://localhost:3306/mydb
+    username: root
+    password: 0000
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+  zipkin:
+    base-url: http://127.0.0.1:9411
+    enabled: true
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+    lease-renewal-interval-in-seconds: 5  # 5초마다 상태 갱신
+    lease-expiration-duration-in-seconds: 15  # 10초 동안 갱신 없으면 만료 처리
+  client:
+    register-with-eureka: true
+    registry-fetch-interval: 10s  # 레지스트리 갱신 주기
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      consume: B3
+      produce: B3
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh
+
+logging:
+  level:
+    com.example.orderservice: DEBUG
+  pattern:
+    correlation: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'

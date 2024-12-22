@@ -1,0 +1,3 @@
+rootProject.name = 'root'
+//include 'service-discovery'
+//include 'config-server'
