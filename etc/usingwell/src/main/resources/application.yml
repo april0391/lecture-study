@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: usingwell
+  output:
+    ansi:
+      enabled: ALWAYS
+  task:
+    execution:
+      thread-name-prefix: myTask-
