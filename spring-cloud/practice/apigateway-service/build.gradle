@@ -2,10 +2,19 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.0'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id 'application' // 추가
+}
+
+application {
+	mainClass = 'com.example.apigateway_service.ApigatewayServiceApplication' // 메인 클래스 경로를 실제로 설정해야 합니다.
+}
+
+run {
+	jvmArgs = ['-Xms128m', '-Xmx256m']
 }
 
 group = 'com.example'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 
 java {
 	toolchain {
@@ -36,6 +45,7 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
 
 	// https://mvnrepository.com/artifact/com.auth0/java-jwt
 	implementation 'com.auth0:java-jwt:3.10.3'

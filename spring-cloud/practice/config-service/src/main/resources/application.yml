@@ -1,6 +1,5 @@
 server:
   port: 8888
-
 spring:
   profiles:
     active: native
@@ -13,7 +12,8 @@ spring:
     config:
       server:
         native:
-          search-locations: file:///D:/LHJ/study/repo/native-file-repo
+#          search-locations: file:///D:/LHJ/study/repo/native-file-repo
+          search-locations: file:/native-file-repo
         git:
 #          uri: file://D:/LHJ/study/git-local-repo  # 로컬 깃
           uri: https://github.com/april0391/temp-config.git

@@ -7,6 +7,7 @@ import com.example.userservice.vo.Greeting;
 import com.example.userservice.vo.RequestLogin;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -28,6 +29,7 @@ public class UserController {
     private final Greeting greeting;
     private final UserService userService;
 
+    @Timed(value = "users.status", longTask = true)
     @GetMapping("/health_check")
     public String status() {
         return String.format("It's Working in User Service"
@@ -37,6 +39,7 @@ public class UserController {
                 + "\n, token expiration time=" + env.getProperty("token.expiration_time"));
     }
 
+    @Timed(value = "users.welcome", longTask = true)
     @GetMapping("/welcome")
     public String welcome() {
 //        return env.getProperty("greeting.message");
