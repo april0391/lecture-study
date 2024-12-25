@@ -4,17 +4,17 @@
 --
 
 CREATE TABLE IF NOT EXISTS zipkin_spans (
-                                            `trace_id_high` BIGINT NOT NULL DEFAULT 0 COMMENT 'If non zero, this means the trace uses 128 bit traceIds instead of 64 bit',
-                                            `trace_id` BIGINT NOT NULL,
-                                            `id` BIGINT NOT NULL,
-                                            `name` VARCHAR(255) NOT NULL,
+    `trace_id_high` BIGINT NOT NULL DEFAULT 0 COMMENT 'If non zero, this means the trace uses 128 bit traceIds instead of 64 bit',
+    `trace_id` BIGINT NOT NULL,
+    `id` BIGINT NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
     `remote_service_name` VARCHAR(255),
     `parent_id` BIGINT,
     `debug` BIT(1),
     `start_ts` BIGINT COMMENT 'Span.timestamp(): epoch micros used for endTs query and to implement TTL',
     `duration` BIGINT COMMENT 'Span.duration(): micros used for minDuration and maxDuration query',
     PRIMARY KEY (`trace_id_high`, `trace_id`, `id`)
-    ) ENGINE=InnoDB ROW_FORMAT=COMPRESSED CHARACTER SET=utf8 COLLATE utf8_general_ci;
+) ENGINE=InnoDB ROW_FORMAT=COMPRESSED CHARACTER SET=utf8 COLLATE utf8_general_ci;
 
 ALTER TABLE zipkin_spans ADD INDEX(`trace_id_high`, `trace_id`) COMMENT 'for getTracesByIds';
 ALTER TABLE zipkin_spans ADD INDEX(`name`) COMMENT 'for getTraces and getSpanNames';
@@ -44,8 +44,8 @@ ALTER TABLE zipkin_annotations ADD INDEX(`a_key`) COMMENT 'for getTraces and aut
 ALTER TABLE zipkin_annotations ADD INDEX(`trace_id`, `span_id`, `a_key`) COMMENT 'for dependencies job';
 
 CREATE TABLE IF NOT EXISTS zipkin_dependencies (
-                                                   `day` DATE NOT NULL,
-                                                   `parent` VARCHAR(255) NOT NULL,
+    `day` DATE NOT NULL,
+    `parent` VARCHAR(255) NOT NULL,
     `child` VARCHAR(255) NOT NULL,
     `call_count` BIGINT,
     `error_count` BIGINT,
