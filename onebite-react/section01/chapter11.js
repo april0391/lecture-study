@@ -6,7 +6,7 @@ function greeting() {
 let result = getArea(10, 20);
 console.log(result);
 
-// 호이스팅팅
+// 호이스팅
 function getArea(width, height) {
   let area = width * height;
   return area;
