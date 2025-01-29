@@ -2,9 +2,10 @@ const path = require("path");
 const express = require("express");
 const app = express();
 
+require("dotenv").config();
 const morgan = require("morgan");
 
-app.set("port", process.env.SERVER_PORT || 4000);
+app.set("port", process.env.SERVER_PORT || 3000);
 
 app.use(morgan("dev"));
 
@@ -27,6 +28,8 @@ app.use("/abc", (req, res, next) => {
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "./index.html"));
 });
+
+app.use("/users", require("./routes/userRoutes"));
 
 app.get("/about", (req, res) => {
   res.send("about");
