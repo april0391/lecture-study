@@ -8,6 +8,7 @@ require("express-async-errors");
 
 const userRoutes = require("./routes/userRoutes");
 const loginRoutes = require("./routes/loginRoutes");
+const videoRoutes = require("./routes/videoRoutes");
 
 const authMiddleware = require("./middlewares/authMiddleware");
 
@@ -27,6 +28,7 @@ app.use(morgan("dev"));
 // Routing
 app.use("/users", userRoutes);
 app.use("/login", loginRoutes);
+app.use("/api/video", videoRoutes);
 
 // temp
 app.use("/temp", authMiddleware.verifyToken, (req, res) => {
