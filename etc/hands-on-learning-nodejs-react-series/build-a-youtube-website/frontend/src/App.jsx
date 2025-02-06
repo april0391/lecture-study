@@ -8,12 +8,15 @@ import VideoUpload from "./pages/VideoUpload";
 import Logout from "./pages/Logout";
 import Dashboard from "./pages/temp/Dashboard";
 import Dashboard2 from "./pages/temp/Dashboard2";
+import Register from "./pages/Register";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/dashboard2" element={<Dashboard2 />} />
 
