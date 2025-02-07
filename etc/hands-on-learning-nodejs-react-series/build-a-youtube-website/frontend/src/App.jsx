@@ -9,13 +9,17 @@ import Logout from "./pages/Logout";
 import Dashboard from "./pages/temp/Dashboard";
 import Dashboard2 from "./pages/temp/Dashboard2";
 import Register from "./pages/Register";
+import Landing from "./pages/Landing";
+import VideoDetail from "./pages/VideoDetail";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/landing" element={<Landing />} />
 
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/dashboard2" element={<Dashboard2 />} />
@@ -23,6 +27,7 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route path="/logout" element={<Logout />} />
         <Route path="/video/upload" element={<VideoUpload />} />
+        <Route path="/video/:id" element={<VideoDetail />} />
       </Route>
     </Routes>
   );

@@ -1,4 +1,5 @@
 require("dotenv").config();
+const createHttpError = require("http-errors");
 const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -10,7 +11,12 @@ const signToken = (payload) => {
 };
 
 const verifyToken = (token) => {
-  return jwt.verify(token, JWT_SECRET);
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch (error) {
+    console.error(error);
+    throw createHttpError(400, error);
+  }
 };
 
 module.exports = { signToken, verifyToken };

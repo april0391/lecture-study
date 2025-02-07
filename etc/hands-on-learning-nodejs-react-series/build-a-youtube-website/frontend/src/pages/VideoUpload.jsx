@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { PlusOutlined as Icon } from "@ant-design/icons";
+import { message } from "antd";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 
@@ -32,10 +34,10 @@ const VideoUpload = (props) => {
   useEffect(() => {
     const savedUser = localStorage.getItem("token");
     if (savedUser) {
-      console.log(savedUser);
       setUser(savedUser);
     }
   }, []);
+  const navigate = useNavigate();
 
   const handleChangeTitle = (event) => {
     setTitle(event.currentTarget.value);
@@ -49,17 +51,11 @@ const VideoUpload = (props) => {
     setPrivacy(event.currentTarget.value);
   };
 
-  const handleChangeTwo = (event) => {
-    setCategories(event.currentTarget.value);
+  const handleChangeTwo = (e) => {
+    setCategories(e.currentTarget.value);
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
-
-    if (!user || !user.isAuth) {
-      return alert("Please Log in First");
-    }
-
+  const validateFields = () => {
     if (
       title === "" ||
       description === "" ||
@@ -70,9 +66,16 @@ const VideoUpload = (props) => {
     ) {
       return alert("Please first fill all the fields");
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!user) {
+      return alert("Please Log in First");
+    }
 
     const variables = {
-      writer: user._id,
+      writer: user,
       title: title,
       description: description,
       privacy: privacy,
@@ -81,11 +84,26 @@ const VideoUpload = (props) => {
       duration: duration,
       thumbnail: thumbnail,
     };
+
+    validateFields();
+
+    axios
+      .post(`${BACKEND_URL}/api/video/uploadVideo`, variables)
+      .then((res) => {
+        message.success("업로드를 완료하였습니다");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error("업로드 실패:", error);
+        alert("업로드에 실패했습니다.");
+      });
   };
 
   const uploadVideo = async (formData) => {
     try {
-      return await axios.post(`${BACKEND_URL}/api/video/uploadVideo`, formData);
+      return await axios.post(`${BACKEND_URL}/api/video/uploadFiles`, formData);
     } catch (error) {
       console.error(error);
       alert("Failed to upload video.");
@@ -126,7 +144,7 @@ const VideoUpload = (props) => {
         <h2 className="text-2xl font-semibold">Upload Video</h2>
       </div>
 
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="flex justify-between mb-5">
           <Dropzone onDrop={onDrop} multiple={false} maxSize={800000000}>
             {({ getRootProps, getInputProps }) => (
@@ -200,6 +218,7 @@ const VideoUpload = (props) => {
         </div>
 
         <button
+          onClick={handleSubmit}
           type="submit"
           className="w-full bg-blue-500 text-white p-3 rounded-md"
         >

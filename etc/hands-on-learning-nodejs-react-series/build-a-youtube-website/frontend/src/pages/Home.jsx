@@ -16,6 +16,7 @@ const Home = () => {
           <ButtonLink text="동영상 업로드" uri="/video/upload" />
         </>
       )}
+      <ButtonLink text="동영상 보기" uri="/landing" />
     </div>
   );
 };

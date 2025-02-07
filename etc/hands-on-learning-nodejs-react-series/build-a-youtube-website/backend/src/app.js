@@ -37,9 +37,8 @@ app.use("/users", userRoutes);
 app.use("/login", loginRoutes);
 app.use("/api/video", videoRoutes);
 
-// temp
-app.use("/temp", authMiddleware.verifyToken, (req, res) => {
-  res.send("ok");
+app.post("/api/comment/getComments", (req, res) => {
+  res.json({});
 });
 
 // Global Error Handling
