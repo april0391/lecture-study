@@ -1,39 +1,52 @@
 import { useRef, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const formFields = ["email", "password", "username"];
+const inputs = [
+  {
+    name: "email",
+    type: "text",
+    placeholder: "이메일을 입력하세요",
+  },
+  {
+    name: "password",
+    type: "password",
+    placeholder: "비밀번호를 입력하세요",
+  },
+  {
+    name: "username",
+    type: "text",
+    placeholder: "닉네임을 입력하세요",
+  },
+];
+
+const validateOrThrow = (formData, inputRefs) => {
+  const invalidFields = [];
+  for (let field in formData) {
+    if (formData[field] === "") {
+      invalidFields.push(field);
+    }
+  }
+  if (invalidFields.length !== 0) {
+    alert("입력 데이터가 올바르지 않습니다.");
+    throw new Error("입력 데이터가 올바르지 않습니다.");
+  }
+};
 
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(
-    formFields.reduce((acc, field) => {
-      acc[field] = "";
+    inputs.reduce((acc, input) => {
+      acc[input.name] = "";
+      return acc;
     }, {})
   );
   const inputRefs = useRef(
-    formFields.reduce((acc, field) => {
-      acc[field] = null;
+    inputs.reduce((acc, input) => {
+      acc[input.name] = null;
+      return acc;
     }, {})
   );
-
-  const inputs = [
-    {
-      name: "email",
-      type: "text",
-      placeholder: "이메일을 입력하세요",
-    },
-    {
-      name: "password",
-      type: "password",
-      placeholder: "비밀번호를 입력하세요",
-    },
-    {
-      name: "username",
-      type: "text",
-      placeholder: "닉네임을 입력하세요",
-    },
-  ];
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -44,15 +57,14 @@ const Register = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(inputRefs.current);
-
-    /* try {
+    validateOrThrow(formData, inputRefs);
+    try {
       await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users`, formData);
       alert("회원가입에 성공하였습니다.");
       navigate("/");
     } catch (error) {
       console.log(error);
-    } */
+    }
   };
 
   return (

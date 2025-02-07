@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 4000;
+const path = require("path");
 const morgan = require("morgan");
 const cors = require("cors");
 const mongodb = require("./config/mongodb");
@@ -24,6 +25,12 @@ app.use(
 app.use(express.json()); // 요청 본문 JSON 파싱
 app.use(express.urlencoded({ extended: true })); // HTML 폼 데이터를 req.body로 변환
 app.use(morgan("dev"));
+
+// 정적 파일 서빙
+const dir = path.join(__dirname, "../uploads");
+console.log(dir);
+
+app.use("/uploads", express.static(dir));
 
 // Routing
 app.use("/users", userRoutes);

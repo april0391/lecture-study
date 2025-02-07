@@ -22,17 +22,18 @@ const VideoUpload = (props) => {
   const [user, setUser] = useState(null);
 
   const [title, setTitle] = useState("");
-  const [Description, setDescription] = useState("");
+  const [description, setDescription] = useState("");
   const [privacy, setPrivacy] = useState(0);
-  const [Categories, setCategories] = useState("Film & Animation");
-  const [FilePath, setFilePath] = useState("");
-  const [Duration, setDuration] = useState("");
-  const [Thumbnail, setThumbnail] = useState("");
+  const [categories, setCategories] = useState("Film & Animation");
+  const [filePath, setFilePath] = useState("");
+  const [duration, setDuration] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("user");
+    const savedUser = localStorage.getItem("token");
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      console.log(savedUser);
+      setUser(savedUser);
     }
   }, []);
 
@@ -61,11 +62,11 @@ const VideoUpload = (props) => {
 
     if (
       title === "" ||
-      Description === "" ||
-      Categories === "" ||
-      FilePath === "" ||
-      Duration === "" ||
-      Thumbnail === ""
+      description === "" ||
+      categories === "" ||
+      filePath === "" ||
+      duration === "" ||
+      thumbnail === ""
     ) {
       return alert("Please first fill all the fields");
     }
@@ -73,54 +74,50 @@ const VideoUpload = (props) => {
     const variables = {
       writer: user._id,
       title: title,
-      description: Description,
+      description: description,
       privacy: privacy,
-      filePath: FilePath,
-      category: Categories,
-      duration: Duration,
-      thumbnail: Thumbnail,
+      filePath: filePath,
+      category: categories,
+      duration: duration,
+      thumbnail: thumbnail,
     };
-
-    axios
-      .post(`${BACKEND_URL}/api/video/uploadVideo`, variables)
-      .then((response) => {
-        if (response.data.success) {
-          alert("video Uploaded Successfully");
-          props.history.push("/");
-        } else {
-          alert("Failed to upload video");
-        }
-      });
   };
 
-  const onDrop = (files) => {
+  const uploadVideo = async (formData) => {
+    try {
+      return await axios.post(`${BACKEND_URL}/api/video/uploadVideo`, formData);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to upload video.");
+    }
+  };
+
+  const makeThumbnail = async (variables) => {
+    try {
+      return await axios.post(`${BACKEND_URL}/api/video/thumbnail`, variables);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to make the thumbnails");
+    }
+  };
+
+  const onDrop = async (files) => {
     let formData = new FormData();
-    console.log(files);
     formData.append("file", files[0]);
 
-    axios.post(`${BACKEND_URL}/api/video/uploadfiles`, formData).then((res) => {
-      if (res.data.success) {
-        let variable = {
-          filePath: res.data.filePath,
-          fileName: res.data.fileName,
-        };
-        setFilePath(res.data.filePath);
+    const uploadResponse = await uploadVideo(formData);
+    console.log(uploadResponse);
 
-        // generate thumbnail with this filepath!
-        axios
-          .post(`${BACKEND_URL}/api/video/thumbnail`, variable)
-          .then((res) => {
-            if (res.data.success) {
-              setDuration(res.data.fileDuration);
-              setThumbnail(res.data.thumbsFilePath);
-            } else {
-              alert("Failed to make the thumbnails");
-            }
-          });
-      } else {
-        alert("failed to save the video in server");
-      }
-    });
+    let variables = {
+      filePath: uploadResponse.data.filePath,
+      fileName: uploadResponse.data.fileName,
+    };
+    setFilePath(uploadResponse.data.filePath);
+
+    const thumbnailResponse = await makeThumbnail(variables);
+
+    setDuration(thumbnailResponse.data.fileDuration);
+    setThumbnail(thumbnailResponse.data.url);
   };
 
   return (
@@ -143,13 +140,14 @@ const VideoUpload = (props) => {
             )}
           </Dropzone>
 
-          {Thumbnail !== "" && (
+          {thumbnail !== "" && (
             <div className="ml-5">
               <img
-                src={`http://localhost:5000/${Thumbnail}`}
+                src={`${BACKEND_URL}/${thumbnail}`}
                 alt="Thumbnail"
                 className="w-24"
               />
+              <div>{Math.round(duration)}초</div>
             </div>
           )}
         </div>
@@ -167,7 +165,7 @@ const VideoUpload = (props) => {
         <div className="mb-5">
           <label className="block mb-2">Description</label>
           <textarea
-            value={Description}
+            value={description}
             onChange={handleChangeDecsription}
             className="w-full p-2 border border-gray-300 rounded-md"
           />
