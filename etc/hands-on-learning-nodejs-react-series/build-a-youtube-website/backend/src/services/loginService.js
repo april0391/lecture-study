@@ -6,7 +6,8 @@ const User = require("../models/User");
 
 const loginProcess = async (data) => {
   const user = await validateUserCredentials(data);
-  return jwtUtils.signToken({ _id: user._id });
+  const token = jwtUtils.signToken({ _id: user._id });
+  return { token, userId: user._id };
 };
 
 const validateUserCredentials = async (data) => {

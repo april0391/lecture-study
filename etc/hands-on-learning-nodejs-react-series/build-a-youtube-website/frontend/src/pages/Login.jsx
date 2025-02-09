@@ -23,6 +23,7 @@ const Login = () => {
         formData
       );
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data.userId);
       alert("로그인에 성공하였습니다.");
       navigate("/");
     } catch (error) {

@@ -10,6 +10,7 @@ require("express-async-errors");
 const userRoutes = require("./routes/userRoutes");
 const loginRoutes = require("./routes/loginRoutes");
 const videoRoutes = require("./routes/videoRoutes");
+const subscriptionRoutes = require("./routes/subscriptionRoutes");
 
 const authMiddleware = require("./middlewares/authMiddleware");
 
@@ -36,6 +37,7 @@ app.use("/uploads", express.static(dir));
 app.use("/users", userRoutes);
 app.use("/login", loginRoutes);
 app.use("/api/video", videoRoutes);
+app.use("/api/subscribe", subscriptionRoutes);
 
 app.post("/api/comment/getComments", (req, res) => {
   res.json({});

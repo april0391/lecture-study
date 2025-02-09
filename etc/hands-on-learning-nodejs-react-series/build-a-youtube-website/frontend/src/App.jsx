@@ -11,6 +11,7 @@ import Dashboard2 from "./pages/temp/Dashboard2";
 import Register from "./pages/Register";
 import Landing from "./pages/Landing";
 import VideoDetail from "./pages/VideoDetail";
+import Subscription from "./pages/Subscription";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="/video/upload" element={<VideoUpload />} />
         <Route path="/video/:id" element={<VideoDetail />} />
+        <Route path="/subscription" element={<Subscription />} />
       </Route>
     </Routes>
   );

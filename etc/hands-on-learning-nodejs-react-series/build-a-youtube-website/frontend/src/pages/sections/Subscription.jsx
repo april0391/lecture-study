@@ -2,22 +2,37 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../../config/constants";
 
-function Subscription(props) {
-  const { userTo, userFrom } = props;
-
+function Subscription({ userTo, userFrom }) {
   const [subscriberNumber, setSubscriberNumber] = useState(0);
   const [subscribed, setSubscribed] = useState(false);
 
-  const onSubscribe = () => {
-    let subscribeVariables = {
-      userTo,
-      userFrom,
-    };
+  const payload = { userTo, userFrom };
+  useEffect(() => {
+    axios
+      .post(`${BACKEND_URL}/api/subscribe/subscribeNumber`, payload)
+      .then((res) => {
+        if (res.data) {
+          setSubscriberNumber(res.data.subscriberNumber);
+        } else {
+          alert("Failed to get subscriber Number");
+        }
+      });
 
+    axios
+      .post(`${BACKEND_URL}/api/subscribe/subscribed`, payload)
+      .then((res) => {
+        if (res.data) {
+          setSubscribed(res.data.isSubscribed);
+        } else {
+          alert("Failed to get Subscribed Information");
+        }
+      });
+  }, []);
+
+  const onSubscribe = () => {
     if (subscribed) {
-      //when we are already subscribed
       axios
-        .post(`${BACKEND_URL}/api/subscribe/unSubscribe`, subscribeVariables)
+        .post(`${BACKEND_URL}/api/subscribe/unSubscribe`, payload)
         .then((res) => {
           if (res.data) {
             setSubscriberNumber(subscriberNumber - 1);
@@ -27,11 +42,10 @@ function Subscription(props) {
           }
         });
     } else {
-      // when we are not subscribed yet
       axios
-        .post("/api/subscribe/subscribe", subscribeVariables)
-        .then((response) => {
-          if (response.data.success) {
+        .post(`${BACKEND_URL}/api/subscribe/subscribe`, payload)
+        .then((res) => {
+          if (res.data) {
             setSubscriberNumber(subscriberNumber + 1);
             setSubscribed(!subscribed);
           } else {
@@ -40,29 +54,6 @@ function Subscription(props) {
         });
     }
   };
-
-  useEffect(() => {
-    const subscribeNumberVariables = { userTo: userTo, userFrom: userFrom };
-    axios
-      .post("/api/subscribe/subscribeNumber", subscribeNumberVariables)
-      .then((response) => {
-        if (response.data.success) {
-          setSubscriberNumber(response.data.subscribeNumber);
-        } else {
-          alert("Failed to get subscriber Number");
-        }
-      });
-
-    axios
-      .post("/api/subscribe/subscribed", subscribeNumberVariables)
-      .then((response) => {
-        if (response.data.success) {
-          setSubscribed(response.data.subcribed);
-        } else {
-          alert("Failed to get Subscribed Information");
-        }
-      });
-  }, []);
 
   return (
     <div>

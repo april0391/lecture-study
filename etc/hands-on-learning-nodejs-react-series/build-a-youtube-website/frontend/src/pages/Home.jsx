@@ -13,6 +13,7 @@ const Home = () => {
       ) : (
         <>
           <ButtonLink text="로그아웃" uri="/logout" />
+          <ButtonLink text="구독 목록" uri="/subscription" />
           <ButtonLink text="동영상 업로드" uri="/video/upload" />
         </>
       )}
