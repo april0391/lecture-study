@@ -30,4 +30,9 @@ const unSubscribe = async (req, res) => {
   return res.json(subscription);
 };
 
-module.exports = { getSubscriberNumber, isSubscribed, subscribe, unSubscribe };
+module.exports = {
+  getSubscriberNumber,
+  isSubscribed,
+  subscribe,
+  unSubscribe,
+};

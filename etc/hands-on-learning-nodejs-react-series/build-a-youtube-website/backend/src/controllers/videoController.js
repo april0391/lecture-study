@@ -4,6 +4,7 @@ const ffmpeg = require("fluent-ffmpeg");
 const jwtUtils = require("../utils/jwtUtils");
 
 const Video = require("../models/Video");
+const Subscription = require("../models/Subscription");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -131,7 +132,25 @@ const getVideos = async (req, res) => {
 const getVideoById = async (req, res) => {
   const { videoId } = req.body;
   const findVideo = await Video.findById(videoId).populate("writer");
+  console.log(findVideo);
+
   res.json(findVideo);
+};
+
+const getSubscriptionVideos = async (req, res) => {
+  const { userFrom } = req.body;
+  const subscriptions = await Subscription.find({ userFrom });
+  console.log(subscriptions);
+
+  // subscriptions 배열에서 userTo 값만 추출해서 새로운 배열로 만든다.
+  const userTos = subscriptions.map((subscription) => subscription.userTo);
+  console.log(userTos);
+
+  // userToList에 해당하는 비디오를 찾는다.
+  const videos = await Video.find({ writer: { $in: userTos } }).populate(
+    "writer"
+  );
+  res.json(videos);
 };
 
 module.exports = {
@@ -140,4 +159,5 @@ module.exports = {
   uploadVideo,
   getVideos,
   getVideoById,
+  getSubscriptionVideos,
 };

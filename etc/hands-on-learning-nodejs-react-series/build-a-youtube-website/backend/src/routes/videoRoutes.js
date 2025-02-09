@@ -7,5 +7,6 @@ router.post("/uploadVideo", videoController.uploadVideo);
 
 router.get("/getVideos", videoController.getVideos);
 router.post("/getVideo", videoController.getVideoById);
+router.post("/getSubscriptionVideos", videoController.getSubscriptionVideos);
 
 module.exports = router;

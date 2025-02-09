@@ -23,7 +23,6 @@ function VideoDetail() {
       .post(`${BACKEND_URL}/api/video/getVideo`, videoVariable)
       .then((res) => {
         if (res.data) {
-          console.log(res.data);
           setVideo(res.data);
         } else {
           alert("Failed to get video Info");
@@ -34,7 +33,6 @@ function VideoDetail() {
       .post(`${BACKEND_URL}/api/comment/getComments`, videoVariable)
       .then((res) => {
         if (res.data) {
-          console.log(res.data);
           setCommentLists(res.data);
         } else {
           alert("Failed to get comment");
@@ -76,17 +74,23 @@ function VideoDetail() {
             >
               <List.Item.Meta
                 avatar={<Avatar src={video.writer && video.writer.image} />}
-                title={<a href="https://ant.design">{video.title}</a>}
-                description={video.description}
+                title={video.title}
+                description={
+                  <>
+                    {video.description}
+                    <br />
+                    <span>{video.writer && video.writer.username}</span>
+                  </>
+                }
               />
               <div></div>
             </List.Item>
 
-            {/* <Comments
-              CommentLists={commentLists}
+            <Comments
+              commentLists={commentLists}
               postId={video._id}
               refreshFunction={updateComment}
-            /> */}
+            />
           </div>
         </Col>
         <Col lg={6} xs={24}>

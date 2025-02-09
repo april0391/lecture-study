@@ -43,7 +43,7 @@ const Dashboard = () => {
             }}
           >
             <Row gutter={16}>
-              <Col span={8}>
+              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                 <Card>
                   <Statistic
                     title="Total Users"
@@ -52,7 +52,7 @@ const Dashboard = () => {
                   />
                 </Card>
               </Col>
-              <Col span={8}>
+              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                 <Card>
                   <Statistic
                     title="New Signups"
@@ -61,7 +61,7 @@ const Dashboard = () => {
                   />
                 </Card>
               </Col>
-              <Col span={8}>
+              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                 <Card>
                   <Statistic
                     title="Notifications"
@@ -72,7 +72,7 @@ const Dashboard = () => {
               </Col>
             </Row>
             <Row gutter={16} style={{ marginTop: "20px" }}>
-              <Col span={24}>
+              <Col xs={24}>
                 <Card title="Latest Updates" bordered={false}>
                   <p>Recent updates will be shown here...</p>
                 </Card>

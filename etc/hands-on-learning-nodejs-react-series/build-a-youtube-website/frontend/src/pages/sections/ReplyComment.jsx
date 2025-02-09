@@ -1,56 +1,60 @@
-import React, { useEffect, useState } from 'react'
-import SingleComment from './SingleComment';
+import React, { useEffect, useState } from "react";
+import SingleComment from "./SingleComment";
 
-function ReplyComment(props) {
+const ReplyComment = ({
+  commentLists,
+  parentCommentId,
+  postId,
+  refreshFunction,
+}) => {
+  const [childCommentCount, setChildCommentCount] = useState(0);
+  const [openReplyComments, setOpenReplyComments] = useState(false);
 
-    const [ChildCommentNumber, setChildCommentNumber] = useState(0)
-    const [OpenReplyComments, setOpenReplyComments] = useState(false)
-    useEffect(() => {
+  useEffect(() => {
+    const commentNumber = commentLists.filter(
+      (comment) => comment.responseTo === parentCommentId
+    ).length;
+    setChildCommentCount(commentNumber);
+  }, [commentLists, parentCommentId]);
 
-        let commentNumber = 0;
-        props.CommentLists.map((comment) => {
+  const handleChange = () => {
+    setOpenReplyComments((prev) => !prev);
+  };
 
-            if (comment.responseTo === props.parentCommentId) {
-                commentNumber++
-            }
-        })
-        setChildCommentNumber(commentNumber)
-    }, [props.CommentLists, props.parentCommentId])
-
-
-    let renderReplyComment = (parentCommentId) =>
-        props.CommentLists.map((comment, index) => (
-            <React.Fragment>
-                {comment.responseTo === parentCommentId &&
-                    <div style={{ width: '80%', marginLeft: '40px' }}>
-                        <SingleComment comment={comment} postId={props.postId} refreshFunction={props.refreshFunction} />
-                        <ReplyComment CommentLists={props.CommentLists} parentCommentId={comment._id} postId={props.postId} refreshFunction={props.refreshFunction} />
-                    </div>
-                }
-            </React.Fragment>
-        ))
-
-    const handleChange = () => {
-        setOpenReplyComments(!OpenReplyComments)
-    }
-
-
-    return (
-        <div>
-
-            {ChildCommentNumber > 0 &&
-                <p style={{ fontSize: '14px', margin: 0, color: 'gray' }}
-                    onClick={handleChange} >
-                    View {ChildCommentNumber} more comment(s)
-             </p>
-            }
-
-            {OpenReplyComments &&
-                renderReplyComment(props.parentCommentId)
-            }
-
+  const renderReplyComments = (parentCommentId) => {
+    return commentLists
+      .filter((comment) => comment.responseTo === parentCommentId)
+      .map((comment) => (
+        <div key={comment._id} style={{ width: "80%", marginLeft: "40px" }}>
+          <SingleComment
+            comment={comment}
+            postId={postId}
+            refreshFunction={refreshFunction}
+          />
+          <ReplyComment
+            commentLists={commentLists}
+            parentCommentId={comment._id}
+            postId={postId}
+            refreshFunction={refreshFunction}
+          />
         </div>
-    )
-}
+      ));
+  };
 
-export default ReplyComment
+  return (
+    <div>
+      {childCommentCount > 0 && (
+        <p
+          style={{ fontSize: "14px", margin: 0, color: "gray" }}
+          onClick={handleChange}
+        >
+          View {childCommentCount} more comment(s)
+        </p>
+      )}
+
+      {openReplyComments && renderReplyComments(parentCommentId)}
+    </div>
+  );
+};
+
+export default ReplyComment;

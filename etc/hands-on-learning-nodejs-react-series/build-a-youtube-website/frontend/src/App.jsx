@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Landing from "./pages/Landing";
 import VideoDetail from "./pages/VideoDetail";
 import Subscription from "./pages/Subscription";
+import AntdExample from "./pages/temp/AntdExample";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
 
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/dashboard2" element={<Dashboard2 />} />
+      <Route path="/antd" element={<AntdExample />} />
 
       <Route element={<ProtectedRoute />}>
         <Route path="/logout" element={<Logout />} />

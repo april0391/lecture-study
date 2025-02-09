@@ -6,17 +6,16 @@ function SideVideo() {
   const [sideVideos, setSideVideos] = useState([]);
 
   useEffect(() => {
-    axios.get(`${BACKEND_URL}/api/video/getVideos`).then((response) => {
-      if (response.data) {
-        console.log(response.data);
-        setSideVideos(response.data);
+    axios.get(`${BACKEND_URL}/api/video/getVideos`).then((res) => {
+      if (res.data) {
+        setSideVideos(res.data);
       } else {
         alert("Failed to get Videos");
       }
     });
   }, []);
 
-  const sideVideoItem = sideVideos.map((video, index) => {
+  const sideVideoItem = sideVideos.map((video) => {
     var minutes = Math.floor(video.duration / 60);
     var seconds = Math.floor(video.duration - minutes * 60);
 

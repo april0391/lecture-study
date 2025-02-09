@@ -16,7 +16,7 @@ function Subscription() {
       .post(`${BACKEND_URL}/api/video/getSubscriptionVideos`, payload)
       .then((res) => {
         if (res.data) {
-          setVideos(res.data.videos);
+          setVideos(res.data);
         } else {
           alert("Failed to get subscription videos");
         }
@@ -65,7 +65,7 @@ function Subscription() {
           avatar={<Avatar src={video.writer.image} />}
           title={video.title}
         />
-        <span>{video.writer.name} </span>
+        <span>{video.writer.username} </span>
         <br />
         <span style={{ marginLeft: "3rem" }}> {video.views}</span>-{" "}
         <span> {moment(video.createdAt).format("MMM Do YY")} </span>
