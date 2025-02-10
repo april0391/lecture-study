@@ -51,23 +51,23 @@ function Comments({ postId, commentLists, refreshFunction }) {
       <hr />
       {/* Comment Lists */}
       {commentLists &&
-        commentLists.map((comment) =>
-          !comment.responseTo ? (
-            <SingleComment
-              key={comment._id}
-              comment={comment}
-              postId={postId}
-              refreshFunction={refreshFunction}
-            />
-          ) : (
-            <ReplyComment
-              key={comment._id}
-              commentLists={commentLists}
-              postId={postId}
-              parentCommentId={comment._id}
-              refreshFunction={refreshFunction}
-            />
-          )
+        commentLists.map(
+          (comment, index) =>
+            !comment.responseTo && (
+              <React.Fragment key={comment._id}>
+                <SingleComment
+                  comment={comment}
+                  postId={postId}
+                  refreshFunction={refreshFunction}
+                />
+                <ReplyComment
+                  commentLists={commentLists}
+                  postId={postId}
+                  parentCommentId={comment._id}
+                  refreshFunction={refreshFunction}
+                />
+              </React.Fragment>
+            )
         )}
 
       {/* Root Comment Form */}
