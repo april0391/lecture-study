@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
+const { logger } = require("./logger");
 
 const connect = async () => {
   try {
     await mongoose.connect(
-      "mongodb://root:0000@localhost:27017/youtube?authSource=admin"
+      "mongodb://root:0000@localhost:27017/movie_website?authSource=admin"
     );
-    console.log("MongoDB Connected!");
+    logger.info("MongoDB Connected!");
   } catch (error) {
-    console.error("MongoDB connection error: ", error);
+    logger.error("MongoDB connection error: ", error);
   }
 };
 

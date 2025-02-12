@@ -1,13 +1,10 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
 const bcrypt = require("../utils/bcryptUtils");
+const createHttpError = require("http-errors");
 
 const findAll = async () => {
   return await User.find();
-};
-
-const findById = async (id) => {
-  return await User.findById(id);
 };
 
 const save = async ({ email, password, username }) => {
@@ -16,8 +13,26 @@ const save = async ({ email, password, username }) => {
   return await user.save();
 };
 
-const updateById = async (req, res) => {};
+const findById = async (id) => {
+  const user = await User.findById(id);
+  return checkUserExistsOrThrow(user);
+};
 
-const deleteById = async (req, res) => {};
+const updateById = async (id, data) => {
+  const user = await User.findByIdAndUpdate(id, data, { new: true });
+  return checkUserExistsOrThrow(user);
+};
+
+const deleteById = async (id) => {
+  const user = await User.findByIdAndDelete(id);
+  return checkUserExistsOrThrow(user);
+};
+
+const checkUserExistsOrThrow = (user) => {
+  if (!user) {
+    throw createHttpError(404, "User not found.");
+  }
+  return user;
+};
 
 module.exports = { findAll, save, findById, updateById, deleteById };

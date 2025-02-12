@@ -1,14 +1,19 @@
 const express = require("express");
 const app = express();
-const port = 4000;
-const morgan = require("morgan");
-const cors = require("cors");
+require("dotenv").config();
 require("express-async-errors");
+const cors = require("cors");
+const { logger, morganMiddleware } = require("./config/logger");
+const PORT = process.env.NODE_PORT;
 const mongodb = require("./config/mongodb");
 
 const userRoutes = require("./routes/userRoutes");
 
+// Configuration
 mongodb.connect();
+
+// app.use(morgan("dev"));
+app.use(morganMiddleware);
 
 // Middlewares
 app.use(
@@ -19,18 +24,21 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan("dev"));
 
 app.use("/users", userRoutes);
 
 // Global Error Handling
 app.use((err, req, res, next) => {
-  console.error(err);
+  logger.error(err);
   const statusCode = err.status || 500;
   const message = err.message || "Internal Server Error";
-  res.status(statusCode).json({ message });
+  const body = { message };
+  if (err.errors) {
+    body.errors = err.errors;
+  }
+  res.status(statusCode).json(body);
 });
 
-app.listen(port, () => {
-  console.log("서버 실행중");
+app.listen(PORT, () => {
+  logger.info(`서버 실행중. 포트: ${PORT}`);
 });
