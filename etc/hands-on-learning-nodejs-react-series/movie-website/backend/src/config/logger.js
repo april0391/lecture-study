@@ -14,7 +14,7 @@ const logger = winston.createLogger({
     // 콘솔에 로그 출력
     new winston.transports.Console(),
     // 파일에 로그 저장
-    new winston.transports.File({ filename: "application.log" }),
+    // new winston.transports.File({ filename: "application.log" }),
   ],
 });
 
@@ -26,7 +26,7 @@ const morganMiddleware = morgan(
 );
 
 // 예시 로그
-logger.info("This is an info message.");
-logger.error("This is an error message.");
+// logger.info("This is an info message.");
+// logger.error("This is an error message.");
 
 module.exports = { logger, morganMiddleware };
