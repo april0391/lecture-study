@@ -35,15 +35,7 @@ app.use("/auth", authRoutes);
 // Global Error Handling
 app.use((err, req, res, next) => {
   logger.error(err);
-  const statusCode = err.status || 500;
-  const message = err.message || "Internal Server Error";
-  const errorResponse = {
-    success: false,
-    message: message,
-    data: err.errors || null,
-  };
-
-  res.status(statusCode).json(errorResponse);
+  res.errorJson(err);
 });
 
 app.listen(PORT, () => {

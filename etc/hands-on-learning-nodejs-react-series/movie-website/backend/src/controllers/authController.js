@@ -16,6 +16,7 @@ const loginProcess = async (req, res) => {
   });
 
   res.json({
+    message: "User authenticated.",
     user: {
       id: user._id,
       email: user.email,
