@@ -19,6 +19,12 @@ const Home = () => {
         >
           로그인
         </button>
+        <button
+          onClick={() => navigate("/landing")}
+          className="w-full bg-amber-500 text-white py-3 rounded-lg font-semibold text-lg shadow-md hover:bg-amber-600 transition duration-300 cursor-pointer"
+        >
+          영화 페이지
+        </button>
       </div>
     </div>
   );
