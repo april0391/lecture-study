@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import "./App.css";
 import UpperNavigation from "./components/UpperNavigation";
 import LandingPage from "./pages/landing/LandingPage";
+import MovieDetailPage from "./pages/MovieDetail/MovieDetail";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/landing" element={<LandingPage />} />
+        <Route path="/movie/:id" element={<MovieDetailPage />} />
       </Routes>
     </>
   );
