@@ -1,6 +1,9 @@
+import React from "react";
 import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import PostList from "./components/PostsList";
 import MainHeader from "./components/MainHeader";
+import NewPost from "./components/NewPost";
 
 function App() {
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -16,9 +19,18 @@ function App() {
   return (
     <>
       <MainHeader onCreatePost={showModalHandler} />
-      <main>
-        <PostList isPosting={modalIsVisible} onStopPosting={hideModalHandler} />
-      </main>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PostList
+              isPosting={modalIsVisible}
+              onStopPosting={hideModalHandler}
+            />
+          }
+        />
+        <Route path="/create-post" element={<NewPost />} />
+      </Routes>
     </>
   );
 }
