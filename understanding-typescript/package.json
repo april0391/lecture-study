@@ -1,0 +1,17 @@
+{
+  "name": "understanding-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tsx": "^4.19.3",
+    "@types/node": "^22.13.5"
+  }
+}
