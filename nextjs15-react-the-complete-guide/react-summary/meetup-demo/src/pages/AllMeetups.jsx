@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import MeetupList from "../components/meetups/MeetupList";
 
 const DUMMY_DATA = [
