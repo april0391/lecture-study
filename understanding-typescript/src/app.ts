@@ -1,15 +1,28 @@
-function add(n1: number, n2: number, showResult: boolean) {
-  if (showResult) {
-    console.log(n1 + n2);
-  } else {
-    return n1 + n2;
-  }
+/* const person: {
+  name: string;
+  age: number;
+  hobbies: string[];
+  role: [number, string];
+} = {
+  name: "Max",
+  age: 30,
+  hobbies: ["Sports", "Cooking"],
+  role: [2, "author"],
+}; */
+
+enum Role {
+  ADMIN = "admin",
+  READ_ONLY = "read-only",
+  AUTHOR = "author",
 }
 
-const number1 = +"5";
-const number2 = 2.8;
+const person = {
+  name: "Max",
+  age: 30,
+  hobbies: ["Sports", "Cooking"],
+  role: Role.ADMIN,
+};
 
-add(number1, number2, false);
+person.role = Role.AUTHOR;
 
-let number3: number;
-number3 = +"5";
+console.log(person);
