@@ -1,28 +1,16 @@
-/* const person: {
-  name: string;
-  age: number;
-  hobbies: string[];
-  role: [number, string];
-} = {
-  name: "Max",
-  age: 30,
-  hobbies: ["Sports", "Cooking"],
-  role: [2, "author"],
-}; */
+let userInput: unknown;
+let userName: string;
 
-enum Role {
-  ADMIN = "admin",
-  READ_ONLY = "read-only",
-  AUTHOR = "author",
+userInput = 5;
+userInput = "Max";
+
+if (typeof userInput === "string") {
+  userName = userInput;
 }
 
-const person = {
-  name: "Max",
-  age: 30,
-  hobbies: ["Sports", "Cooking"],
-  role: Role.ADMIN,
-};
+function generateError(message: string, code: number): never {
+  throw { message: message, errorCode: code };
+}
 
-person.role = Role.AUTHOR;
-
-console.log(person);
+const result = generateError("An error occurred!", 500);
+console.log(result);
