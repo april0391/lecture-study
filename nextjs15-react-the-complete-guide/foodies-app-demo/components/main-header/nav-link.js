@@ -13,7 +13,7 @@ const NavLink = ({ href, children }) => {
         path.startsWith(href) ? classes.active : ""
       }`}
     >
-      Browse Meals
+      {children}
     </Link>
   );
 };
