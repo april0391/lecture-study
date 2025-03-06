@@ -1,60 +1,109 @@
-// const userName = 'Max';
-// // userName = 'Maximilian';
-// let age = 30;
+import { log } from "console";
 
-// age = 29;
+abstract class Department {
+  static fiscalYear = 2020;
+  protected employees: string[] = [];
 
-// function add(a: number, b: number) {
-//   let result;
-//   result = a + b;
-//   return result;
-// }
+  constructor(protected readonly id: string, public name: string) {}
 
-// if (age > 20) {
-//   let isOld = true;
-// }
+  abstract describe(this: Department): void;
 
-// console.log(isOld);
+  static createEmployee(name: string) {
+    return { name };
+  }
 
-// console.log(result);
+  addEmployee(employee: string) {
+    this.employees.push(employee);
+  }
 
-// const add = (a: number, b: number = 1) => a + b;
+  printEmployeeInformation() {
+    console.log(this.employees.length);
+    console.log(this.employees);
+  }
+}
 
-// const printOutput: (a: number | string) => void = output => console.log(output);
+class ITDepartment extends Department {
+  constructor(id: string, public admins: string[] = ["Max"]) {
+    super(id, "IT");
+  }
 
-// const button = document.querySelector('button');
+  describe() {
+    console.log("IT Department - ID: " + this.id);
+  }
+}
 
-// if (button) {
-//   button.addEventListener('click', event => console.log(event));
-// }
+class AccountingDepartment extends Department {
+  private lastReport: string;
+  private static instance: AccountingDepartment;
 
-// printOutput(add(5));
+  private constructor(id: string, private reports: string[]) {
+    super(id, "Accounting");
+    this.lastReport = reports[0];
+  }
 
-const hobbies = ["Sports", "Cooking"];
-const activeHobbies = ["Hiking"];
+  static getInstance() {
+    if (!AccountingDepartment.instance) {
+      this.instance = new AccountingDepartment("d1", []);
+    }
+    return this.instance;
+  }
 
-activeHobbies.push(...hobbies);
+  get mostRecentReport() {
+    if (this.lastReport) {
+      return this.lastReport;
+    }
+    throw new Error("No report found.");
+  }
 
-const person = {
-  firstName: "Max",
-  age: 30,
-};
+  set mostRecentReport(value: string) {
+    if (!value) {
+      throw new Error("Please pass in a valid value!");
+    }
+    this.addReport(value);
+  }
 
-const copiedPerson = { ...person };
+  describe() {
+    console.log("Accounting Department - ID: " + this.id);
+  }
 
-const add = (...numbers: number[]) => {
-  return numbers.reduce((curResult, curValue) => {
-    return curResult + curValue;
-  }, 0);
-};
+  addEmployee(employee: string): void {
+    if (employee === "Max") {
+      return;
+    }
+    this.employees.push(employee);
+  }
 
-const addedNumbers = add(5, 10, 2, 3.7);
-console.log(addedNumbers);
+  addReport(text: string) {
+    this.reports.push(text);
+    this.lastReport = text;
+  }
 
-const [hobby1, hobby2, ...remainingHobbies] = hobbies;
+  printReports() {
+    console.log(this.reports);
+  }
+}
 
-console.log(hobbies, hobby1, hobby2);
+const employee1 = Department.createEmployee("Max");
+log(employee1);
 
-const { firstName: userName, age } = person;
+const it = new ITDepartment("d1");
+it.addEmployee("Max");
+it.addEmployee("Manuel");
+// it.printEmployeeInformation();
+// console.log(it);
 
-console.log(userName, age, person);
+const accounting1 = AccountingDepartment.getInstance();
+accounting1.addReport("Something went wrong...");
+console.log(accounting1.mostRecentReport);
+console.log(accounting1);
+const accounting2 = AccountingDepartment.getInstance();
+log(accounting1 === accounting2);
+
+// accounting.describe();
+
+// const accountingCopy = {
+//   name: "DUMMY",
+//   describe: accounting.describe,
+// };
+
+// accountingCopy.describe();
