@@ -1,109 +1,100 @@
-import { log } from "console";
+// const names: Array<string> = [];
 
-abstract class Department {
-  static fiscalYear = 2020;
-  protected employees: string[] = [];
+// const promise = new Promise<string>((resolve, reject) => {
+//   setTimeout(() => {
+//     resolve("This is done!");
+//   }, 2000);
+// });
 
-  constructor(protected readonly id: string, public name: string) {}
+// promise.then(data => {
+//   data.split(' ');
+// })
 
-  abstract describe(this: Department): void;
-
-  static createEmployee(name: string) {
-    return { name };
-  }
-
-  addEmployee(employee: string) {
-    this.employees.push(employee);
-  }
-
-  printEmployeeInformation() {
-    console.log(this.employees.length);
-    console.log(this.employees);
-  }
+function merge<T extends Object, U extends Object>(objA: T, objB: U) {
+  return Object.assign(objA, objB);
 }
 
-class ITDepartment extends Department {
-  constructor(id: string, public admins: string[] = ["Max"]) {
-    super(id, "IT");
-  }
+const mergedObj = merge<{ name: string; hobbies: string[] }, { age: number }>(
+  { name: "Max", hobbies: ["Sports"] },
+  { age: 30 }
+);
+// console.log(mergedObj.age);
 
-  describe() {
-    console.log("IT Department - ID: " + this.id);
-  }
+interface Lengthy {
+  length: number;
 }
 
-class AccountingDepartment extends Department {
-  private lastReport: string;
-  private static instance: AccountingDepartment;
+function countAndDescribe<T extends Lengthy>(element: T): [T, string] {
+  let descriptionText = "Got no value.";
+  if (element.length === 1) {
+    descriptionText = "Got 1 element.";
+  } else if (element.length > 1) {
+    descriptionText = "Got " + element.length + " elements.";
+  }
+  return [element, descriptionText];
+}
 
-  private constructor(id: string, private reports: string[]) {
-    super(id, "Accounting");
-    this.lastReport = reports[0];
+// console.log(countAndDescribe([]));
+
+function extractAndConvert<T extends object, U extends keyof T>(
+  obj: T,
+  key: U
+) {
+  return "Value: " + obj[key];
+}
+
+extractAndConvert({ name: "Max" }, "name");
+
+class DataStorage<T extends string | number | boolean> {
+  private data: T[] = [];
+
+  addItem(item: T) {
+    this.data.push(item);
   }
 
-  static getInstance() {
-    if (!AccountingDepartment.instance) {
-      this.instance = new AccountingDepartment("d1", []);
-    }
-    return this.instance;
-  }
-
-  get mostRecentReport() {
-    if (this.lastReport) {
-      return this.lastReport;
-    }
-    throw new Error("No report found.");
-  }
-
-  set mostRecentReport(value: string) {
-    if (!value) {
-      throw new Error("Please pass in a valid value!");
-    }
-    this.addReport(value);
-  }
-
-  describe() {
-    console.log("Accounting Department - ID: " + this.id);
-  }
-
-  addEmployee(employee: string): void {
-    if (employee === "Max") {
+  removeItem(item: T) {
+    if (this.data.indexOf(item) === -1) {
       return;
     }
-    this.employees.push(employee);
+    this.data.splice(this.data.indexOf(item), 1);
   }
 
-  addReport(text: string) {
-    this.reports.push(text);
-    this.lastReport = text;
-  }
-
-  printReports() {
-    console.log(this.reports);
+  getItems() {
+    return [...this.data];
   }
 }
 
-const employee1 = Department.createEmployee("Max");
-log(employee1);
+const textStorage = new DataStorage<string>();
+textStorage.addItem("Max");
+textStorage.addItem("Manu");
+textStorage.removeItem("Max");
+// console.log(textStorage.getItems());
 
-const it = new ITDepartment("d1");
-it.addEmployee("Max");
-it.addEmployee("Manuel");
-// it.printEmployeeInformation();
-// console.log(it);
+const numberStorage = new DataStorage<number>();
+// const objStorage = new DataStorage<object>();
+// const maxObj = { name: "Max" };
+// objStorage.addItem(maxObj);
+// objStorage.addItem({ name: "Manu" });
+// objStorage.removeItem(maxObj);
+// console.log(objStorage.getItems());
 
-const accounting1 = AccountingDepartment.getInstance();
-accounting1.addReport("Something went wrong...");
-console.log(accounting1.mostRecentReport);
-console.log(accounting1);
-const accounting2 = AccountingDepartment.getInstance();
-log(accounting1 === accounting2);
+interface CourseGoal {
+  title: string;
+  description: string;
+  completeUntil: Date;
+}
 
-// accounting.describe();
+function createCourseGoal(
+  title: string,
+  description: string,
+  date: Date
+): CourseGoal {
+  let courseGoal: Partial<CourseGoal> = {};
+  courseGoal.title = title;
+  courseGoal.description = description;
+  courseGoal.completeUntil = date;
+  return courseGoal as CourseGoal;
+}
 
-// const accountingCopy = {
-//   name: "DUMMY",
-//   describe: accounting.describe,
-// };
-
-// accountingCopy.describe();
+const names: Readonly<string[]> = ["Max", "Anna"];
+// names.push("Manu");
