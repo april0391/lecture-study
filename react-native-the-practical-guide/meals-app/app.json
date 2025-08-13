@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "number-guess-game",
-    "slug": "number-guess-game",
+    "name": "meals-app",
+    "slug": "meals-app",
     "version": "1.0.0",
-    "orientation": "default",
+    "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "backgroundColor": "#24180f",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
