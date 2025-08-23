@@ -10,7 +10,7 @@ import { Colors } from "../../constants/colors";
 
 import OutlinedButton from "../ui/OutlinedButton";
 
-export default function ImagePicker() {
+export default function ImagePicker({ onTakeImage }) {
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
   const [pickedImage, setPickedImage] = useState();
@@ -48,6 +48,7 @@ export default function ImagePicker() {
     });
 
     setPickedImage(firstImage.uri);
+    onTakeImage(firstImage.uri);
   }
 
   let imagePreview = <Text>No image taken yet.</Text>;
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.primary100,
     borderRadius: 4,
+    overflow: "hidden",
   },
   image: {
     width: "100%",
