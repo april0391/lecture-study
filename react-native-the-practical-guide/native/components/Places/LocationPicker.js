@@ -82,7 +82,7 @@ export default function LocationPicker({ onPickLocation }) {
     };
 
     setPickedLocation(location);
-    onTakeLocation(location);
+    onPickLocation(location);
   }
 
   function pickOnMapHandler() {

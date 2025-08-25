@@ -3,9 +3,7 @@ import * as SQLite from "expo-sqlite";
 let db;
 
 export async function init() {
-  if (db) {
-    return;
-  }
+  if (db) return;
 
   try {
     db = await SQLite.openDatabaseAsync("places.db");
@@ -28,19 +26,22 @@ export async function init() {
 }
 
 export async function insertPlace(place) {
-  return db.withTransactionAsync((tx) => {
-    return tx.execAsync(
-      `INSERT INTO places (title, imageUri, address, lat, lng)
-       VALUES (?, ?, ?, ?, ?)`,
-      [
-        place.title,
-        place.imageUri,
-        place.address,
-        place.location.lat,
-        place.loaction.lng,
-      ],
-      (_, result) => console.log(result),
-      (_, error) => console.error(error)
-    );
-  });
+  const result = await db.runAsync(
+    "INSERT INTO places (title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?)",
+    [
+      place.title,
+      place.imageUri,
+      place.address,
+      place.location.lat,
+      place.location.lng,
+    ]
+  );
+  console.log("result", result);
+
+  return result;
+}
+
+export async function fetchPlaces() {
+  const allRows = await db.getAllAsync("SELECT * FROM places");
+  return allRows;
 }

@@ -16,8 +16,6 @@ export default function ImagePicker({ onTakeImage }) {
   const [pickedImage, setPickedImage] = useState();
 
   async function verifyPermissions() {
-    console.log("cameraPermissionInformation", cameraPermissionInformation);
-
     // 상태가 GRANTED가 아니면 권한 요청
     if (cameraPermissionInformation.status !== PermissionStatus.GRANTED) {
       const permissionResponse = await requestPermission();
