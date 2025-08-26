@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "My Recipe Book",
+    "slug": "meals-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "backgroundColor": "#24180f",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "buildNumber": "1.0.0",
+      "supportsTablet": true
+    },
+    "android": {
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.april0391.mealsapp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "icon": "./local/assets/notification_icon.png",
+          "color": "#ffffff",
+          "defaultChannel": "default",
+          "sounds": [
+            "./local/assets/notification_sound.wav",
+            "./local/assets/notification_sound_other.wav"
+          ],
+          "enableBackgroundRemoteNotifications": false
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "c5cb5cb6-ad7d-40ac-8f17-26413d4dae66"
+      }
+    }
+  }
+}
