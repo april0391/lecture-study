@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StatusBar } from "expo-status-bar";
 
-import FavoritesContextProvider from "./store/context/favorites-context";
 import { Provider } from "react-redux";
 import { store } from "./store/redux/store";
 
@@ -22,7 +21,7 @@ function DrawerNavigator() {
   return (
     <Drawer.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: "#351401" },
+        headerStyle: { backgroundColor: "#8a7a71ff" },
         headerTintColor: "white",
         sceneStyle: { backgroundColor: "#3f2f25" },
         drawerContentStyle: { backgroundColor: "#351401" },
