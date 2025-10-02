@@ -2,15 +2,14 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.example.myrecipeapp"
+    namespace = "com.example.locationapp"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.myrecipeapp"
+        applicationId = "com.example.locationapp"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -41,32 +40,13 @@ android {
 }
 
 dependencies {
-    val nav_version = "2.9.4"
-
-    // Jetpack Compose integration
-    implementation("androidx.navigation:navigation-compose:$nav_version")
-
     // Jetpack Compose 내에서 ViewModel을 쉽게 사용하게 해주는 라이브러리입니다.
     // @Composable 함수 안에서 viewModel() 이라는 함수를 호출하여 ViewModel 인스턴스를
     // Composable의 생명주기에 맞춰 안전하게 가져올 수 있게 해줍니다.
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.4")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-    // 네트워크 통신을 매우 쉽게 만들어주는 라이브러리입니다. (개발사: Square)
-    // 웹 서버(API)에 HTTP 요청을 보내고 응답을 받는 과정을 간결한 코드로 처리할 수 있습니다.
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-
-    // Retrofit 라이브러리의 확장 기능(Converter)입니다.
-    // 서버로부터 받은 JSON 형식의 응답 데이터를 우리가 만든 코틀린 데이터 클래스로
-    // 자동으로 변환(파싱)해주는 역할을 합니다.
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-    // 코틀린으로 만들어진 이미지 로딩 라이브러리입니다. (개발사: Coil)
-    // 인터넷 URL로부터 이미지를 가져와 화면의 이미지 뷰에 보여주는 과정을 최적화하여 처리합니다.
-    implementation("io.coil-kt:coil-compose:2.4.0")
-
-
-//    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
-
+    implementation(libs.play.services.location)
+    implementation(libs.play.services.maps)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
