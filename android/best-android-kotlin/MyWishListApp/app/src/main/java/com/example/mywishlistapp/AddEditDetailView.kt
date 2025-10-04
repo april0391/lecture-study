@@ -11,9 +11,14 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,7 +37,14 @@ fun AddEditDetailView(
     viewModel: WishViewModel,
     navController: NavController
 ) {
+    // 1. M3 방식으로 SnackbarHostState를 직접 생성하고 remember로 기억합니다.
+    val snackbarHostState = remember { SnackbarHostState() }
+    val snackMessage = remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+    // val scaffoldState = rememberScaffoldState() // 이 줄은 삭제합니다.
+
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             AppBarView(
                 title =
@@ -71,7 +83,7 @@ fun AddEditDetailView(
                 ) {
                     //TODO UpdateWish
                 } else {
-                    // TODO AddWish
+                    snackMessage.value = "Enter fields to create a wish"
                 }
             }) {
                 Text(
